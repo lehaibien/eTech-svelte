@@ -14,7 +14,7 @@
 
 <div class="container mx-auto flex items-center">
   <div class="dropdown relative inline-block" on:focusout={handleDropdownFocusLoss}>
-    <button class="btn rounded-md" on:click={handleDropdownClick}>
+    <button class="btn rounded-md ps-0" on:click={handleDropdownClick}>
       <svg
         class="fill-current mr-1"
         xmlns="http://www.w3.org/2000/svg"
@@ -48,7 +48,7 @@
       class="category-dropdown absolute w-full bg-surface-100-800-token rounded-b"
       style:visibility={isDropDownOpen ? 'visible' : 'hidden'}
     >
-      <a class="btn w-full" href="/category/1">Laptop</a>
+      <a class="btn w-full" href="/danh-muc-san-pham/1">Laptop</a>
     </div>
   </div>
   <div class="inline-block ml-3 items-center p-3">

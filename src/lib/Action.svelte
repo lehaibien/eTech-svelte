@@ -6,7 +6,6 @@
   };
 
   const handleDropdownFocusLoss = ({ relatedTarget, currentTarget }: any) => {
-    console.log(relatedTarget);
     if (relatedTarget instanceof HTMLElement && currentTarget.contains(relatedTarget)) return;
     isDropDownOpen = false;
   };

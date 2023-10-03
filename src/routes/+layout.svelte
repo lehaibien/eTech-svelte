@@ -4,6 +4,18 @@
   import '../app.postcss';
   import { AppShell } from '@skeletonlabs/skeleton';
   import { initializeStores } from '@skeletonlabs/skeleton';
+  import { page } from '$app/stores';
+  const pathNames: Record<string, string> = {
+    categories: 'Danh mục sản phẩm',
+    products: 'Sản phẩm',
+    'chuot-choi-game': 'Chuột chơi game',
+    'ban-phim-co': 'Bàn phím cơ'
+  };
+  let regex = new RegExp('^(?!$)(?![0-9]+$).*$');
+  const paths = $page.url.pathname
+    .split('/')
+    .filter((path) => regex.test(path))
+    .map((path) => pathNames[path] || path);
 
   initializeStores();
 </script>
@@ -17,6 +29,18 @@
   <!-- (pageHeader) -->
   <!-- Router Slot -->
   <div class="container mx-auto">
+    {#if $page.url.pathname !== '/'}
+      <ol class="breadcrumb">
+        <li class="crumb">
+          <a class="anchor" href="/">Home</a>
+        </li>
+        {#each paths as path}
+          <li class="crumb-separator" aria-hidden>&rsaquo;</li>
+          <li>{path}</li>
+        {/each}
+      </ol>
+    {/if}
+
     <slot />
   </div>
   <!-- ---- / ---- -->
