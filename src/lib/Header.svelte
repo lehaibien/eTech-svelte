@@ -27,6 +27,7 @@
     </div>
     <svelte:fragment slot="trail">
       <Action />
+      <LightSwitch />
     </svelte:fragment>
     <svelte:fragment slot="headline">
       <Category />

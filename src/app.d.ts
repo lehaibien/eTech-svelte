@@ -7,15 +7,3 @@ declare namespace App {
   // interface Error {}
   // interface Platform {}
 }
-
-export class Category {
-  id: number;
-  name: string;
-  description: string;
-  createdAt: Date;
-  updatedAt: Date;
-  image: {
-    filePath: string;
-    fileName: string;
-  };
-}
