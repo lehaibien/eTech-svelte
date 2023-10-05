@@ -1,62 +1,21 @@
 <script lang="ts">
-  let isDropDownOpen = false;
-
-  const handleDropdownClick = () => {
-    isDropDownOpen = !isDropDownOpen;
-  };
-
-  const handleDropdownFocusLoss = ({ relatedTarget, currentTarget }: any) => {
-    if (relatedTarget instanceof HTMLElement && currentTarget.contains(relatedTarget)) return;
-    isDropDownOpen = false;
-  };
 </script>
 
 <div class="header-action flex flex-row items-center">
-  <div class="dropdown" on:focusout={handleDropdownFocusLoss}>
-    <button class="btn" on:click={handleDropdownClick}>
-      <div>
-        <svg class="w-7 h-7 fill-current" viewBox="0 0 1024 1024">
-          <path
-            d="M486.4 563.2c-155.275 0-281.6-126.325-281.6-281.6s126.325-281.6 281.6-281.6 281.6 126.325 281.6 281.6-126.325 281.6-281.6 281.6zM486.4 51.2c-127.043 0-230.4 103.357-230.4 230.4s103.357 230.4 230.4 230.4c127.042 0 230.4-103.357 230.4-230.4s-103.358-230.4-230.4-230.4z"
-          />
-          <path
-            d="M896 1024h-819.2c-42.347 0-76.8-34.451-76.8-76.8 0-3.485 0.712-86.285 62.72-168.96 36.094-48.126 85.514-86.36 146.883-113.634 74.957-33.314 168.085-50.206 276.797-50.206 108.71 0 201.838 16.893 276.797 50.206 61.37 27.275 110.789 65.507 146.883 113.634 62.008 82.675 62.72 165.475 62.72 168.96 0 42.349-34.451 76.8-76.8 76.8zM486.4 665.6c-178.52 0-310.267 48.789-381 141.093-53.011 69.174-54.195 139.904-54.2 140.61 0 14.013 11.485 25.498 25.6 25.498h819.2c14.115 0 25.6-11.485 25.6-25.6-0.006-0.603-1.189-71.333-54.198-140.507-70.734-92.304-202.483-141.093-381.002-141.093z"
-          />
-        </svg>
-      </div>
-      <div class="text">
-        <span class="block">Đăng nhập / Đăng ký</span>
-        <span class="flex items-center justify-center gap-2"
-          >Tài khoản của tôi
-          <svg
-            class="w-3 h-3 fill-current"
-            version="1.1"
-            id="Layer_1"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            viewBox="0 0 330 330"
-            xml:space="preserve"
-          >
-            <g id="SVGRepo_bgCarrier" stroke-width="0" />
-            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
-            <g id="SVGRepo_iconCarrier">
-              <path
-                id="XMLID_225_"
-                d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393 c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393 s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z"
-              />
-            </g>
-          </svg>
-        </span>
-      </div>
-    </button>
-    <div
-      class="dropdown-content absolute w-[300px] h-[200px] bg-violet-300"
-      style:visibility={isDropDownOpen ? 'visible' : 'hidden'}
-    >
-      <h2>Hello dropdown</h2>
-    </div>
+  <div class="dropdown relative">
+    <a class="btn" href="/login">
+      <svg class="w-7 h-7 fill-current" viewBox="0 0 1024 1024">
+        <path
+          d="M486.4 563.2c-155.275 0-281.6-126.325-281.6-281.6s126.325-281.6 281.6-281.6 281.6 126.325 281.6 281.6-126.325 281.6-281.6 281.6zM486.4 51.2c-127.043 0-230.4 103.357-230.4 230.4s103.357 230.4 230.4 230.4c127.042 0 230.4-103.357 230.4-230.4s-103.358-230.4-230.4-230.4z"
+        />
+        <path
+          d="M896 1024h-819.2c-42.347 0-76.8-34.451-76.8-76.8 0-3.485 0.712-86.285 62.72-168.96 36.094-48.126 85.514-86.36 146.883-113.634 74.957-33.314 168.085-50.206 276.797-50.206 108.71 0 201.838 16.893 276.797 50.206 61.37 27.275 110.789 65.507 146.883 113.634 62.008 82.675 62.72 165.475 62.72 168.96 0 42.349-34.451 76.8-76.8 76.8zM486.4 665.6c-178.52 0-310.267 48.789-381 141.093-53.011 69.174-54.195 139.904-54.2 140.61 0 14.013 11.485 25.498 25.6 25.498h819.2c14.115 0 25.6-11.485 25.6-25.6-0.006-0.603-1.189-71.333-54.198-140.507-70.734-92.304-202.483-141.093-381.002-141.093z"
+        />
+      </svg>
+      <span class="hidden md:inline">Tài khoản</span>
+    </a>
   </div>
-  <button class="btn">
+  <button class="btn" type="button">
     <div class="relative inline-block">
       <span class="badge-icon variant-filled-primary absolute -top-1 -right-2 z-10">2</span>
       <svg class="w-7 h-7 fill-current" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -70,6 +29,6 @@
         </g>
       </svg>
     </div>
-    <span>Giỏ hàng</span>
+    <span class="hidden md:inline">Giỏ hàng</span>
   </button>
 </div>
