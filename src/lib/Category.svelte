@@ -12,14 +12,15 @@
   };
 </script>
 
-<div class="container mx-auto flex items-center">
+<div class="container mx-auto flex items-center h-full">
   <div class="dropdown relative inline-block" on:focusout={handleDropdownFocusLoss}>
-    <button class="btn rounded-md ps-0" on:click={handleDropdownClick}>
+    <button
+      class="btn rounded-sm flex items-center variant-ringed-surface"
+      on:click={handleDropdownClick}
+    >
       <svg
-        class="fill-current mr-1"
+        class="fill-current mr-1 w-5 md:w-6 h-5 md:h-6"
         xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
         x="0"
         y="0"
         viewBox="0 0 60.123 60.123"
@@ -38,20 +39,24 @@
               d="M57.124,14.231H16.92c-1.657,0-3-1.343-3-3s1.343-3,3-3h40.203c1.657,0,3,1.343,3,3S58.781,14.231,57.124,14.231z"
             />
             <circle cx="4.029" cy="11.463" r="4.029" /><circle cx="4.029" cy="30.062" r="4.029" />
-            <circle cx="4.029" cy="48.661" r="4.029" /></g
-          >
+            <circle cx="4.029" cy="48.661" r="4.029" />
+          </g>
         </g>
       </svg>
-      <span>Danh mục sản phẩm</span>
+      <span class="hidden md:inline uppercase">Danh mục sản phẩm</span>
     </button>
     <div
-      class="category-dropdown absolute w-full bg-surface-100-800-token rounded-b"
+      class="category-dropdown absolute w-screen md:w-full bg-surface-100-800-token rounded-b top-14 md:top-12"
       style:visibility={isDropDownOpen ? 'visible' : 'hidden'}
     >
-      <a class="btn w-full" href="/danh-muc-san-pham/1">Laptop</a>
+      <a
+        class="btn w-full p-3 border-b-2 border-surface-200-700-token rounded-none"
+        href="/danh-muc-san-pham/1">Laptop</a
+      >
+      <a class="btn w-full p-3" href="/danh-muc-san-pham/2">Chuot gaming</a>
     </div>
   </div>
-  <div class="inline-block ml-3 items-center p-3">
+  <div class="ml-3 items-center p-3 hidden md:inline-block">
     <div class="inline-flex items-center gap-1">
       <img
         class="w-4 h-4 invert-0 dark:invert"
