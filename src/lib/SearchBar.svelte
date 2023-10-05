@@ -9,12 +9,17 @@
       searchResult = [];
       return;
     }
-    const result = await fetch(`https://localhost:7066/api/product/search?query=${query}`, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then((res) => res.json());
-    searchResult = result;
+    try {
+      const result = await fetch(`https://localhost:7066/api/product/search?query=${query}`, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => res.json());
+      searchResult = result;
+    } catch {
+      console.error('Error when searching');
+      searchResult = [];
+    }
   };
   $: handleSearch(search);
 </script>
@@ -75,7 +80,7 @@
           </div>
           <div class="w-1/6 inline-block text-right">
             <a href="/products/2">
-              <img src={staticPath + s.images[0].fileName} alt="logitech" />
+              <img src={s.images[0].filePath} alt="logitech" />
             </a>
           </div>
         </div>

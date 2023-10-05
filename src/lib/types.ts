@@ -1,3 +1,13 @@
+export interface Image {
+  id: number;
+  fileName: string;
+  filePath: string;
+  fileSize: number;
+  originalFileName: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface Category {
   id: number;
   name: string;
@@ -22,7 +32,7 @@ export interface Product {
   stock: number;
   category: Category;
   brand: Brand;
-  images: string[];
+  images: Image[];
   createdAt: Date;
   modifiedAt: Date;
 }
