@@ -1,8 +1,10 @@
 <script lang="ts">
   import { convertPriceToCurrency } from '$lib/helper.js';
+  import type { Product } from '$lib/types.js';
 
   export let data;
-  const product = data.props.product;
+  let product: Product | null = null;
+  $: product = data.props.product;
   let quantity = 1;
   const handleQuantity = (e: any) => {
     quantity = e.target.value;
@@ -23,13 +25,15 @@
 <svelte:head>
   {#if product !== null}
     <title>{product.name} | eTech</title>
+  {:else}
+    <title>eTech</title>
   {/if}
 </svelte:head>
 
 {#if product !== null}
   <div class="flex flex-wrap bg-surface-50-900-token">
     <div class="w-full md:w-[36%] relative p-4">
-      <img src={product.images[0]} alt="" class="mx-auto" />
+      <img src={product.images[0].filePath} alt="" class="mx-auto" />
     </div>
     <div
       class="w-full md:w-[64%] bg-surface-50-900-token border-l-[1px] dark:border-gray-600 border-gray-300 p-4"
