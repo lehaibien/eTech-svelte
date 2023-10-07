@@ -1,7 +1,6 @@
 <script lang="ts">
   import { convertPriceToCurrency } from './helper';
   import type { Product } from './types';
-  const staticPath = 'https://localhost:7066/static/images/';
   let search: string;
   let searchResult: Product[] = [];
   const handleSearch = async (query: string) => {
@@ -20,6 +19,10 @@
       console.error('Error when searching');
       searchResult = [];
     }
+  };
+  const handleProductClick = () => {
+    search = '';
+    searchResult = [];
   };
   $: handleSearch(search);
 </script>
@@ -71,8 +74,10 @@
           class="search-item p-3 border-b-surface-300 dark:border-b-surface-600 flex items-center border-b"
         >
           <div class="w-5/6 pr-1 relative mt-0 flex flex-col">
-            <a href="/products/{s.id}" class="text-xs text-ellipsis whitespace-pre mt-2 mb-1"
-              >{s.name}</a
+            <a
+              href="/products/{s.id}"
+              class="text-xs text-ellipsis whitespace-pre mt-2 mb-1"
+              on:click={handleProductClick}>{s.name}</a
             >
             <p class="text-primary-600-300-token text-xs font-medium m-0">
               {convertPriceToCurrency(s.price)}

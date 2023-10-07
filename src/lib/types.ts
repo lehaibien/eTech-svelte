@@ -36,3 +36,17 @@ export interface Product {
   createdAt: Date;
   modifiedAt: Date;
 }
+
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
+export interface User {
+  id: string;
+  userName: string;
+  email: string;
+  name: string;
+  phoneNumber: string;
+  image: Image;
+}

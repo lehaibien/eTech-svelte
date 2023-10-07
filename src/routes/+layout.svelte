@@ -5,6 +5,8 @@
   import { AppShell } from '@skeletonlabs/skeleton';
   import { initializeStores } from '@skeletonlabs/skeleton';
   import { page } from '$app/stores';
+  import { getUserFromToken, setUser } from '../stores/userStore';
+  import { onMount } from 'svelte';
   const pathNames: Record<string, string> = {
     categories: 'Danh mục sản phẩm',
     products: 'Sản phẩm',
@@ -17,6 +19,16 @@
     .filter((path) => regex.test(path))
     .map((path) => pathNames[path] || path);
 
+  onMount(() => {
+    const setUserFromLocalStorage = async (token: any) => {
+      const user = await getUserFromToken(token);
+      setUser(user);
+    };
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken && accessToken?.length > 0) {
+      setUserFromLocalStorage(accessToken);
+    }
+  });
   initializeStores();
 </script>
 

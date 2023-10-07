@@ -1,11 +1,14 @@
 <script lang="ts">
   import { convertPriceToCurrency } from '$lib/helper.js';
   import type { Product } from '$lib/types.js';
+  import { addToCart } from '../../../stores/cartStore.js';
 
   export let data;
-  let product: Product | null = null;
+  let product: Product;
+  let maxRating = 5;
+  let rating = 3.5;
   $: product = data.props.product;
-  let quantity = 1;
+  let quantity: number = 1;
   const handleQuantity = (e: any) => {
     quantity = e.target.value;
   };
@@ -17,20 +20,23 @@
       quantity--;
     }
   };
-  if (product === null) {
+  const addProductToCart = () => {
+    addToCart(product, quantity);
+  };
+  if (product === undefined || product === null) {
     console.error('Product not found');
   }
 </script>
 
 <svelte:head>
-  {#if product !== null}
+  {#if product !== null && product !== undefined}
     <title>{product.name} | eTech</title>
   {:else}
     <title>eTech</title>
   {/if}
 </svelte:head>
 
-{#if product !== null}
+{#if product !== null && product !== undefined}
   <div class="flex flex-wrap bg-surface-50-900-token">
     <div class="w-full md:w-[36%] relative p-4">
       <img src={product.images[0].filePath} alt="" class="mx-auto" />
@@ -75,7 +81,7 @@
                 >-</button
               >
               <input
-                type="text"
+                type="number"
                 id="quantity"
                 name="quantity"
                 value={quantity}
@@ -94,6 +100,7 @@
               <button
                 type="button"
                 class="rounded text-[15px] font-semibold w-full px-5 py-3 uppercase bg-surface-800-200-token text-primary-600-300-token border-[1px] border-primary-600-300-token"
+                on:click={addProductToCart}
               >
                 Thêm vào giỏ
               </button>
@@ -151,7 +158,11 @@
           />
         </div>
         <div class="w-2/3 float-left pl-2">
-          <button type="button" class="btn bg-primary-400-500-token rounded w-full h-[40px]">
+          <button
+            type="button"
+            class="btn bg-primary-400-500-token rounded w-full h-[40px]"
+            on:click={addProductToCart}
+          >
             Thêm vào giỏ
           </button>
         </div>

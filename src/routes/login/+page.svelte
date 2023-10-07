@@ -1,16 +1,17 @@
 <script lang="ts">
-  const onFormSubmit = (value: SubmitEvent) => {
-    fetch('https://localhost:7066/api/authenticate/login', {
+  import { getUserFromToken, setUser } from '../../stores/userStore';
+
+  const onFormSubmit = async (value: SubmitEvent) => {
+    const token = await fetch('https://localhost:7066/api/authenticate/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ username, password })
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-      });
+    }).then((res) => res.json());
+    localStorage.setItem('accessToken', JSON.stringify(token));
+    const user = await getUserFromToken(token);
+    setUser(user);
   };
   let username: string;
   let password: string;
@@ -39,5 +40,5 @@
       bind:value={password}
     />
   </div>
-  <button class="p-3 mt-2 btn variant-outline-primary text-white" type="submit">Đăng nhập</button>
+  <button class="p-3 mt-2 btn variant-outline-primary" type="submit">Đăng nhập</button>
 </form>
