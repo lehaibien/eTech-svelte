@@ -12,7 +12,7 @@ export async function load({ params, fetch }) {
   }
   return {
     props: {
-      product
+      product: product as Product
     }
   };
 }

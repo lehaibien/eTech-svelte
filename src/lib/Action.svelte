@@ -1,4 +1,14 @@
 <script lang="ts">
+  import { cartStore, clearCart } from '../stores/cartStore';
+  import { userStore } from '../stores/userStore';
+  let totalCartItem = 0;
+  cartStore.subscribe((cart) => {
+    totalCartItem = cart.items.length;
+  });
+  let user = null;
+  userStore.subscribe((u) => {
+    user = u;
+  });
 </script>
 
 <div class="header-action flex flex-row items-center">
@@ -12,12 +22,16 @@
           d="M896 1024h-819.2c-42.347 0-76.8-34.451-76.8-76.8 0-3.485 0.712-86.285 62.72-168.96 36.094-48.126 85.514-86.36 146.883-113.634 74.957-33.314 168.085-50.206 276.797-50.206 108.71 0 201.838 16.893 276.797 50.206 61.37 27.275 110.789 65.507 146.883 113.634 62.008 82.675 62.72 165.475 62.72 168.96 0 42.349-34.451 76.8-76.8 76.8zM486.4 665.6c-178.52 0-310.267 48.789-381 141.093-53.011 69.174-54.195 139.904-54.2 140.61 0 14.013 11.485 25.498 25.6 25.498h819.2c14.115 0 25.6-11.485 25.6-25.6-0.006-0.603-1.189-71.333-54.198-140.507-70.734-92.304-202.483-141.093-381.002-141.093z"
         />
       </svg>
-      <span class="hidden md:inline">Tài khoản</span>
+      <span class="hidden md:inline"
+        >{#if user !== null}{user.name}{:else}Đăng nhập{/if}</span
+      >
     </a>
   </div>
   <button class="btn" type="button">
     <div class="relative inline-block">
-      <span class="badge-icon variant-filled-primary absolute -top-1 -right-2 z-10">2</span>
+      <span class="badge-icon variant-filled-primary absolute -top-1 -right-2 z-10"
+        >{totalCartItem}</span
+      >
       <svg class="w-7 h-7 fill-current" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
         <g transform="translate(0 512) scale(.1 -.1)">
           <path
@@ -29,6 +43,20 @@
         </g>
       </svg>
     </div>
-    <span class="hidden md:inline">Giỏ hàng</span>
+    <button
+      type="button"
+      on:click={() => {
+        clearCart();
+      }}
+      on:keydown={(e) => {
+        if (e.key === 'Enter') {
+          clearCart();
+        }
+      }}
+      aria-label="Giỏ hàng"
+      aria-pressed="false"
+    >
+      Giỏ hàng
+    </button>
   </button>
 </div>
