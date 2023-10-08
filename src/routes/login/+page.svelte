@@ -24,9 +24,9 @@
   let error: boolean;
 </script>
 <div class="card p-6 space-y-6 shadow-xl max-w-3xl m-auto max-w-sm">
-  {error && <div>
+  <!-- {error && <div>
     <p>error</p>
-  </div>}
+  </div>} -->
   <p class="font-bold text-3xl text-primary-600-300-token">Đăng nhập</p>
 	<form on:submit={onFormSubmit} class="space-y-4">
 		<div class="flex flex-col">
