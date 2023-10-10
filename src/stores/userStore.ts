@@ -1,7 +1,7 @@
 import type { User } from '$lib/types';
 import { writable } from 'svelte/store';
 
-const userState: User = null;
+export const userState: User = null;
 
 export const userStore = writable(userState);
 
