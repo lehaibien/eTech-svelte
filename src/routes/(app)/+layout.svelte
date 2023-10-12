@@ -14,7 +14,8 @@
     'ban-phim-co': 'Bàn phím cơ'
   };
   let regex = new RegExp('^(?!$)(?![0-9]+$).*$');
-  const paths = $page.url.pathname
+  let paths: string[] = [];
+  $: paths = $page.url.pathname
     .split('/')
     .filter((path) => regex.test(path))
     .map((path) => pathNames[path] || path);

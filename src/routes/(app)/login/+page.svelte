@@ -15,7 +15,7 @@
       username = '';
       password = '';
     } else {
-      window.location.href = '/';
+      //window.location.href = '/';
     }
     localStorage.setItem('accessToken', JSON.stringify(token));
     const user = await getUserFromToken(token.accessToken);

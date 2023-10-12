@@ -1,9 +1,20 @@
 import type { User } from '$lib/types';
 import { writable } from 'svelte/store';
 
-export const userState: User = null;
+export const userState : User = null ;
 
-export const userStore = writable(userState);
+export const getUserInit = async () => {
+  const token = JSON.parse(localStorage.getItem('accessToken')).accessToken;
+  if(token === undefined || token === null){
+    console.log("Token doesn't exists!");
+    return;
+  }
+  console.log("Token exists");
+  const user = await getUserFromToken(token);
+  userStore.set(user);
+}
+
+ export const userStore = writable(userState);
 
 export const setUser = (user: User) => {
   userStore.update(() => {
