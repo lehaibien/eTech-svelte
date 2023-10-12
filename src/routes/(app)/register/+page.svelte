@@ -4,6 +4,7 @@
 
   const HangdleTerm = () => {
     const register = document.getElementById('Register');
+
     register.disabled = !register.disabled;
   };
   const HandleRegister = async (value: SubmitEvent) => {
@@ -154,8 +155,8 @@
       <div class="flex items-center py-2">
         <p>
           <input id="Term" on:change={HangdleTerm} type="checkbox" /> Tôi đồng ý với các
-          <a href="" class="text-primary-600-300-token">Điều khoản</a>
-          & <a href="" class="text-primary-600-300-token">Chính sách bảo mật</a>
+          <a href="'/" class="text-primary-600-300-token">Điều khoản</a>
+          & <a href="/" class="text-primary-600-300-token">Chính sách bảo mật</a>
         </p>
       </div>
       <div class="flex justify-end">
