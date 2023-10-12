@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { getUserFromToken, setUser } from '../../stores/userStore';
+  import { getUserFromToken, setUser } from '../../../stores/userStore';
 
   const HangdleTerm = () => {
     const register = document.getElementById('Register');
@@ -77,8 +77,10 @@
   let screenSize: number;
 </script>
 
-<div class="card p-6 space-y-6 shadow-xl m-auto flex w-[90%] max-w-5xl items-center justify-center my-10">
-  {#if screenSize > 520} 
+<div
+  class="card p-6 space-y-6 shadow-xl m-auto flex w-[90%] max-w-5xl items-center justify-center my-10"
+>
+  {#if screenSize > 520}
     <div class="flex justify-center w-[50%]">
       <img src="/images/logo-ptud.png" class="max-h-60 h-fit" alt="" />
     </div>
