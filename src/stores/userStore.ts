@@ -6,7 +6,6 @@ export const userState: User = null;
 export const userStore = writable(userState);
 
 export const setUser = (user: User) => {
-  console.log('User: ', user);
   userStore.update(() => {
     return user;
   });

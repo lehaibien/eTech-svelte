@@ -1,7 +1,7 @@
 <script lang="ts">
   import { convertPriceToCurrency } from '$lib/helper.js';
   import type { Product } from '$lib/types.js';
-  import { addToCart } from '../../../stores/cartStore.js';
+  import { addToCart } from '../../../../stores/cartStore';
 
   export let data;
   let product: Product;
