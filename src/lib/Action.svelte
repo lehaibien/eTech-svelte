@@ -1,8 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
   import { cartStore, clearCart } from '../stores/cartStore';
-  import { userStore, userState, getUserFromToken, setUser } from '../stores/userStore';
-    import type { User } from './types';
+  import { getUserFromToken, setUser } from '../stores/userStore';
   let totalCartItem = 0;
   cartStore.subscribe((cart) => {
     totalCartItem = cart.items.length;
