@@ -4,7 +4,6 @@
 
   const HangdleTerm = () => {
     const register = document.getElementById('Register');
-
     register.disabled = !register.disabled;
   };
   const HandleRegister = async (value: SubmitEvent) => {
@@ -45,8 +44,9 @@
         },
         body: JSON.stringify({ username, password })
       }).then((res) => res.json());
+      console.log(token)
       localStorage.setItem('accessToken', JSON.stringify(token));
-      const user = await getUserFromToken(token);
+      const user = await getUserFromToken(token.accessToken);
       setUser(user);
       window.location.href = '/';
     }
