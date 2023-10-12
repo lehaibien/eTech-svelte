@@ -1,10 +1,10 @@
 <script lang="ts">
   import { Drawer, getDrawerStore, type DrawerSettings } from '@skeletonlabs/skeleton';
-  import { onMount } from 'svelte';
-  import { cartStore, removeFromCart } from '../stores/cartStore';
-  import { getUserFromToken, setUser, userStore } from '../stores/userStore';
+  import { cartStore, removeFromCart, clearCart } from '../stores/cartStore';
   import { convertPriceToCurrency } from './helper';
-  import type { CartItem } from './types';
+  import type { CartItem, User } from './types';
+    import { onMount } from 'svelte';
+  import { userStore, userState, getUserFromToken, setUser } from '../stores/userStore';
   let totalCartItem = 0;
   let cartItems: CartItem[] = [];
   let quantity: number[] = [];
@@ -13,29 +13,13 @@
     cartItems = cart.items;
     quantity = cart.items.map((item) => item.quantity);
   });
-  const drawerStore = getDrawerStore();
-  const drawerSettings: DrawerSettings = {
-    id: 'cart-drawer',
-    position: 'right',
-    width: 'w-[50px] md:w-[500px]'
-  };
-  const handleQuantity = () => {
-    //do nothing for now
-    // TODO: handle quantity change
-  };
-  const increaseQuantity = (index: number) => {
-    quantity[index]++;
-  };
-  const decreaseQuantity = (index: number) => {
-    if (quantity[index] > 1) {
-      quantity[index]--;
-    }
-  };
   let user = null;
-  userStore.subscribe((u) => {
-    user = u;
-    if (u !== null) console.log(u.name);
-  });
+  onMount(async () => {
+    const token = JSON.parse(localStorage.getItem('accessToken'));
+    user = await getUserFromToken(token);
+    setUser(user)
+  })
+  
 </script>
 
 <Drawer>
@@ -122,6 +106,19 @@
         </svg>
         <span class="hidden md:inline">Đăng nhập</span>
       </a>
+    <a class="btn" href="/login">
+      <svg class="w-7 h-7 fill-current" viewBox="0 0 1024 1024">
+        <path
+          d="M486.4 563.2c-155.275 0-281.6-126.325-281.6-281.6s126.325-281.6 281.6-281.6 281.6 126.325 281.6 281.6-126.325 281.6-281.6 281.6zM486.4 51.2c-127.043 0-230.4 103.357-230.4 230.4s103.357 230.4 230.4 230.4c127.042 0 230.4-103.357 230.4-230.4s-103.358-230.4-230.4-230.4z"
+        />
+        <path
+          d="M896 1024h-819.2c-42.347 0-76.8-34.451-76.8-76.8 0-3.485 0.712-86.285 62.72-168.96 36.094-48.126 85.514-86.36 146.883-113.634 74.957-33.314 168.085-50.206 276.797-50.206 108.71 0 201.838 16.893 276.797 50.206 61.37 27.275 110.789 65.507 146.883 113.634 62.008 82.675 62.72 165.475 62.72 168.96 0 42.349-34.451 76.8-76.8 76.8zM486.4 665.6c-178.52 0-310.267 48.789-381 141.093-53.011 69.174-54.195 139.904-54.2 140.61 0 14.013 11.485 25.498 25.6 25.498h819.2c14.115 0 25.6-11.485 25.6-25.6-0.006-0.603-1.189-71.333-54.198-140.507-70.734-92.304-202.483-141.093-381.002-141.093z"
+        />
+      </svg>
+      <span class="hidden md:inline"
+        >Đăng nhập</span
+      >
+    </a>
     {/if}
   </div>
   <button

@@ -26,6 +26,10 @@ const getCart = (): CartState => {
       'Content-Type': 'application/json'
     }
   }).then((res) => res.json());
+  console.log(cart)
+  if(cart === undefined || cart.items === undefined) {
+    return initialCartState;
+  }
   cart.total = cart.items.reduce((acc, item) => {
     return acc + item.product.price * item.quantity;
   }, 0);
@@ -41,8 +45,7 @@ export const cartStore = writable(getCart());
 
 // Define actions to update the cart state
 export const addToCart = async (item: Product, quantity = 1) => {
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjlhNDc2MTAwLWFjOGYtNDJkMC1hZDQxLTYyNGM0MDI1NjhhNiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJhZG1pbiIsImp0aSI6IjY2NGI5ZWExLWYxMjAtNGQwOC05Yzg0LTM5NWU5NmZhOWFmYyIsImV4cCI6MTY5NzQzNDgxNywiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIn0.6mhMIl0ejAxVjE_Q81ortQagDecJLHLXpFbNOmQBdbg';
+  const token = JSON.parse(localStorage.getItem('accessToken')).accessToken
   const user = await getUserFromToken(token);
   let cartItem: CartItem = {
     product: null,

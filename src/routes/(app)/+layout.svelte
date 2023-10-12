@@ -14,7 +14,8 @@
     'ban-phim-co': 'Bàn phím cơ'
   };
   let regex = new RegExp('^(?!$)(?![0-9]+$).*$');
-  const paths = $page.url.pathname
+  let paths: string[] = [];
+  $: paths = $page.url.pathname
     .split('/')
     .filter((path) => regex.test(path))
     .map((path) => pathNames[path] || path);
@@ -44,11 +45,16 @@
     {#if $page.url.pathname !== '/'}
       <ol class="breadcrumb">
         <li class="crumb">
-          <a class="anchor" href="/">Home</a>
+          <a class="anchor flex items-center no-underline justify-center text-primary-600-300-token hover:text-error-600-300-token" href="/">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+              <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
+            </svg>
+            <p class="font-bold ms-1">Home</p>            
+          </a>
         </li>
         {#each paths as path}
-          <li class="crumb-separator" aria-hidden>&rsaquo;</li>
-          <li>{path}</li>
+          <li class="crumb-separator font-bold" aria-hidden>&rsaquo;</li>
+          <li class="font-bold capitalize">{path}</li>
         {/each}
       </ol>
     {/if}
