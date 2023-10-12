@@ -1,11 +1,11 @@
 <script lang="ts">
   import Footer from '$lib/Footer.svelte';
   import Header from '$lib/Header.svelte';
-  import '../app.postcss';
+  import '../../app.postcss';
   import { AppShell } from '@skeletonlabs/skeleton';
   import { initializeStores } from '@skeletonlabs/skeleton';
   import { page } from '$app/stores';
-  import { getUserFromToken, setUser } from '../stores/userStore';
+  import { getUserFromToken, setUser } from '../../stores/userStore';
   import { onMount } from 'svelte';
   const pathNames: Record<string, string> = {
     categories: 'Danh mục sản phẩm',

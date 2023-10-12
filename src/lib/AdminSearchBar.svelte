@@ -40,7 +40,7 @@
         type="search"
         id="default-search"
         class="block w-full p-2 md:p-4 text-sm bg-surface-300-600-token rounded-none md:rounded-md border-none focus:ring-0 placeholder:text-sm lg:placeholder:text-base"
-        placeholder="Tìm kiếm sản phẩm..."
+        placeholder="Tìm kiếm chức năng..."
         required
         bind:value={search}
       />
