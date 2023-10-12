@@ -7,15 +7,16 @@
 
 <AppRail
   width="w-full"
-  height="h-full"
+  height="min-h-screen"
   aspectRatio="aspect-[30/9]"
   gap="gap-2"
   active="bg-secondary-active-token"
   regionDefault="flex flex-col"
+  regionTrail="py-2"
 >
   <svelte:fragment slot="lead">
     <AppRailAnchor href="/admin" regionLabel="h-1/3 flex items-center">
-      <img src="/images/logo-ptud-min.png" alt="eTech logo" class="w-1/3 mx-auto" />
+      <img src="/images/logo-ptud-min.png" alt="eTech logo" class="w-2/5 mx-auto" />
     </AppRailAnchor>
   </svelte:fragment>
   <!-- --- -->
@@ -50,7 +51,7 @@
         </g>
       </svg>
     </svelte:fragment>
-    <span>Brands</span>
+    <span>Hãng</span>
   </AppRailAnchor>
   <AppRailAnchor href="/admin/categories" selected={currentPage == '/admin/categories'}>
     <svelte:fragment slot="lead">
@@ -93,12 +94,12 @@
         </g>
       </svg>
     </svelte:fragment>
-    <span>Categories</span>
+    <span>Thể loại</span>
   </AppRailAnchor>
   <!-- --- -->
   <svelte:fragment slot="trail">
     <div class="w-full h-full flex items-center justify-center">
-      <h2>Developed by lehaibien, hoangnhi.</h2>
+      <h2>Developed by <span class="text-primary-600-300-token">lehaibien, hoangnhi</span>.</h2>
     </div>
   </svelte:fragment>
 </AppRail>

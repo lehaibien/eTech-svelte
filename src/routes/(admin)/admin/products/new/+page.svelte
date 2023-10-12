@@ -1,38 +1,168 @@
 <script lang="ts">
   import { FileDropzone } from '@skeletonlabs/skeleton';
+  import { onMount } from 'svelte';
   let files: FileList;
+  const removeImage = (index: number) => {
+    files = Array.from(files).filter((_, i) => i !== index);
+  };
+  let category: { id: number; name: string }[] = [];
+  let brand: { id: number; name: string }[] = [];
+  onMount(async () => {
+    category = await fetch('https://localhost:7066/api/category').then((res) => res.json());
+    brand = await fetch('https://localhost:7066/api/brand').then((res) => res.json());
+  });
+  let product = {
+    name: '',
+    categoryId: 0,
+    brandId: 0,
+    price: 0,
+    stock: 0,
+    description: ''
+  };
+  const addProduct = async () => {
+    if (files === undefined || files.length === 0) {
+      alert('Vui lòng chọn hình ảnh cho sản phẩm');
+      return;
+    }
+    const formData = new FormData();
+    formData.append('name', product.name);
+    formData.append('categoryId', product.categoryId.toString());
+    formData.append('brandId', product.brandId.toString());
+    formData.append('price', product.price.toString());
+    formData.append('stock', product.stock.toString());
+    formData.append('description', product.description);
+    for (let i = 0; i < files.length; i++) {
+      formData.append('images', files[i]);
+    }
+    const token = JSON.parse(localStorage.getItem('accessToken')).accessToken;
+    const res = await fetch('https://localhost:7066/api/product', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      body: formData
+    });
+    if (res) {
+      alert('Thêm sản phẩm thành công');
+      window.location.href = '/admin/products';
+    } else {
+      alert('Thêm sản phẩm thất bại');
+    }
+  };
 </script>
 
-<div class="h-full">
-  <h2>New product</h2>
-  <div class="grid grid-cols-2">
-    <div class="col-span-1">
-      <h3>Images</h3>
-      <FileDropzone name="files" bind:files={files} multiple>
+<div class="h-full flex flex-col">
+  <h1>Thêm sản phẩm mới</h1>
+  <div class="grid grid-cols-2 py-4 gap-3">
+    <div class="col-span-1 p-6 border border-surface-300-600-token">
+      <h3 class="mb-2">Hình ảnh</h3>
+      <FileDropzone name="files" bind:files multiple accept="image/*">
         <svelte:fragment slot="lead">
-          <svg fill="currentColor" viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            class="w-40 h-40 mx-auto"
+            fill="currentColor"
+            viewBox="0 0 30 30"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <g id="SVGRepo_bgCarrier" stroke-width="0" />
             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
             <g id="SVGRepo_iconCarrier">
-              <g opacity="0.2">
-                <polygon points="152 32 152 88 208.008 88 152 32" />
-              </g>
-              <g>
-                <path
-                  d="M216.00781,88a7.97224,7.97224,0,0,0-2.43164-5.73779L157.65723,26.34375q-.27686-.27694-.58008-.5257c-.04932-.04046-.10254-.075-.15283-.11419-.15577-.12195-.3125-.2428-.477-.35315-.04493-.03021-.09327-.05518-.13868-.08441-.1748-.11182-.35058-.22113-.53418-.3194-.03369-.01813-.06933-.03223-.10351-.04987-.19727-.10235-.39746-.19989-.60449-.28576-.02344-.00977-.04786-.01673-.07178-.02625-.21729-.08783-.4375-.16888-.66358-.23767-.02636-.008-.05371-.01282-.08007-.02057-.22217-.06506-.44678-.12408-.67627-.17-.06543-.01312-.13282-.01874-.19873-.03027-.19092-.03321-.38184-.06678-.57715-.08619A7.98793,7.98793,0,0,0,152,24H55.99219a16.01833,16.01833,0,0,0-16,16V216a16.01833,16.01833,0,0,0,16,16H200a16.01833,16.01833,0,0,0,16-16V88.15948C216.001,88.1059,216.00781,88.05383,216.00781,88ZM160,51.31372,188.68652,80H160ZM200,216H55.99219V40H144V88a8.00008,8.00008,0,0,0,8,8h48.00049l.00928,120Z"
-                />
-                <path
-                  d="M150.34326,150.34326,136,164.68652V120a8,8,0,0,0-16,0v44.68652l-14.34326-14.34326a8,8,0,0,0-11.31348,11.314l28,28c.02588.02606.05469.04767.08106.0733.16211.15784.32861.31128.50341.455.09766.08032.20118.15039.30176.22534.1084.08111.21485.1654.32764.241.11621.07794.2373.1455.35693.21667.10449.06244.20655.12817.31446.18585.12011.06439.24414.119.36669.17676.11426.05389.22657.1109.34327.15942.11816.049.23925.08838.35937.13135.126.04541.251.09387.37988.133.11963.03613.24122.06262.36231.09308.13184.03338.26269.07037.397.097.13965.02765.28028.044.42041.06415.11817.01691.23389.03925.353.051.26269.02588.52588.03986.78955.03986s.52686-.014.78955-.03986c.11914-.01171.23486-.03405.353-.051.14013-.02014.28076-.0365.42041-.06415.13428-.02667.26513-.06366.397-.097.12109-.03046.24268-.057.36231-.09308.1289-.03913.2539-.08759.37988-.133.12012-.043.24121-.0824.35937-.13135.1167-.04852.229-.10553.34327-.15942.12255-.0578.24658-.11237.36669-.17676.10791-.05768.21-.12341.31446-.18585.11963-.07117.24072-.13873.35693-.21667.11279-.07557.21924-.15986.32764-.241.10058-.075.2041-.145.30176-.22534.17822-.1463.34765-.30237.51269-.46326.023-.02283.04883-.04193.07178-.06506l28-28a8,8,0,0,0-11.31348-11.314Z"
-                />
-              </g>
+              <path
+                d="M10.5 5c-.073 0-.14.015-.207.045L.83 9.35c-.737.335-1.033 1.227-.687 1.945L6.355 24.18c.347.718 1.24 1.07 1.967.664l3.422-1.907c.588-.298.044-1.18-.486-.873L7.834 23.97c-.196.11-.467.01-.58-.224l-.414-.857 1.885-.943c.605-.304.078-1.16-.45-.894l-1.87.935L1.044 10.86c-.113-.233-.023-.498.2-.6l9.464-4.305c.485-.222.287-.955-.207-.955zm4.777-1c-.19 0-.377.035-.552.104-.35.137-.648.407-.81.775L8.122 18.15c-.32.737.02 1.61.757 1.93l13.277 5.797c.737.32 1.61-.02 1.93-.757l5.795-13.277c.32-.737-.023-1.61-.76-1.93L15.847 4.12c-.184-.08-.378-.12-.57-.12zm-.015.994c.06.002.122.016.183.043l13.278 5.795c.244.107.345.37.238.613l-4.82 11.047-14.13-6.166 4.822-11.05c.08-.182.248-.286.43-.282zM9.61 17.242l14.13 6.168-.572 1.313c-.107.244-.37.347-.613.24L9.277 19.168c-.244-.107-.347-.37-.24-.615zM7.5 16c-.22-.002-.408.133-.475.342l-1 3c-.194.583.733.967.95.316l1-3c.112-.323-.133-.656-.475-.658zm9-3c-.075 0-.156.02-.223.053l-4 2c-.596.267-.093 1.19.446.894l3.605-1.802 1.756 2.632c.14.21.413.282.64.17l3.604-1.802 1.756 2.632c.352.547 1.19-.033.832-.554l-2-3c-.14-.21-.413-.282-.64-.17l-3.604 1.802-1.756-2.632c-.094-.142-.246-.226-.416-.223zm.5-5c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 1c.563 0 1 .437 1 1s-.437 1-1 1-1-.437-1-1 .437-1 1-1zM6 11c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 1c.563 0 1 .437 1 1s-.437 1-1 1-1-.437-1-1 .437-1 1-1z"
+              />
             </g>
-            </svg
-          >
+          </svg>
         </svelte:fragment>
-        <svelte:fragment slot="message">(message)</svelte:fragment>
-        <svelte:fragment slot="meta">(meta)</svelte:fragment>
+        <svelte:fragment slot="message">
+          Kéo thả hình vào đây, hoặc
+          <strong class="text-tertiary-600-300-token">Nhấn để chọn</strong>
+        </svelte:fragment>
+        <svelte:fragment slot="meta">Chỉ chấp nhận PNG, JPG, JPEG và GIF</svelte:fragment>
       </FileDropzone>
+      <div class="image-zone w-full">
+        {#if files !== undefined && files.length > 0}
+          {#each files as file, i}
+            <div
+              class="flex justify-between items-center mt-3 border border-surface-400-500-token p-4"
+            >
+              <img src={URL.createObjectURL(file)} alt={file.name} class="w-1/5" />
+              <button
+                class="btn rounded-lg variant-filled-primary w-1/6"
+                on:click={() => removeImage(i)}
+              >
+                Xóa
+              </button>
+            </div>
+          {/each}
+        {/if}
+      </div>
     </div>
-    <div class="col-span-1" />
+    <div class="col-span-1 p-6 border border-surface-300-600-token">
+      <div class="mb-3">
+        <label for="product-name">Tên sản phẩm</label>
+        <input
+          name="product-name"
+          type="text"
+          class="w-full rounded-md bg-surface-300-600-token p-2"
+          placeholder="Nhập tên sản phẩm"
+          bind:value={product.name}
+        />
+      </div>
+      <div class="mb-3">
+        <label for="category">Danh mục</label>
+        <select
+          name="category"
+          class="w-full rounded-md bg-surface-300-600-token p-2"
+          bind:value={product.categoryId}
+        >
+          {#each category as item}
+            <option value={item.id}>{item.name}</option>
+          {/each}
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="brand">Hãng</label>
+        <select
+          name="brand"
+          class="w-full rounded-md bg-surface-300-600-token p-2"
+          bind:value={product.brandId}
+        >
+          {#each brand as item}
+            <option value={item.id}>{item.name}</option>
+          {/each}
+        </select>
+      </div>
+      <div class="mb-3 relative">
+        <label for="price">Giá</label>
+        <input
+          name="price"
+          type="number"
+          class="w-full rounded-md bg-surface-300-600-token p-2"
+          bind:value={product.price}
+        />
+        <button class="absolute top-1/2 right-2 z-10" disabled>VNĐ</button>
+      </div>
+      <div class="mb-3">
+        <label for="stock">Số lượng tồn kho</label>
+        <input
+          name="stock"
+          type="number"
+          class="w-full rounded-md bg-surface-300-600-token p-2"
+          bind:value={product.stock}
+        />
+      </div>
+      <div class="mb-3">
+        <label for="description">Mô tả</label>
+        <textarea
+          name="description"
+          class="w-full rounded-md bg-surface-300-600-token p-2"
+          placeholder="Nhập mô tả cho sản phẩm"
+          bind:value={product.description}
+        />
+      </div>
+    </div>
   </div>
+  <button class="btn rounded-lg variant-filled-primary w-1/6 self-end" on:click={addProduct}
+    >Thêm sản phẩm mới</button
+  >
 </div>

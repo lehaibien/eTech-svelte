@@ -17,7 +17,7 @@
       const capitalizedCrumb = crumb.charAt(0).toUpperCase() + crumb.slice(1);
       // join the words back together with a space
       // return the label and the link
-      return { label: capitalizedCrumb, link: `/${crumb}` };
+      return { label: capitalizedCrumb, link: `/admin/${crumb}` };
     });
   console.log(myBreadcrumbs);
 </script>
