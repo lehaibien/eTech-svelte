@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { userState, userStore } from "../stores/userStore";
+  import { userState, userStore } from '../../stores/userStore';
 </script>
 
 <svelte:head>

@@ -7,7 +7,7 @@
   let product: Product;
   let maxRating = 5;
   let rating = 3.5;
-  $: product = data.props.product;
+  product = data.props.product;
   let quantity: number = 1;
   const handleQuantity = (e: any) => {
     quantity = e.target.value;
@@ -37,8 +37,8 @@
 </svelte:head>
 
 {#if product !== null && product !== undefined}
-  <div class="flex flex-wrap bg-surface-50-900-token">
-    <div class="w-full md:w-[36%] relative p-4">
+  <div class="flex flex-wrap bg-surface-50-900-token mt-3">
+    <div class="w-full md:w-[36%] relative p-4 bg-white">
       <img src={product.images[0].filePath} alt="" class="mx-auto" />
     </div>
     <div
@@ -48,12 +48,12 @@
         <h1 class="text-xl mb-2">{product.name}</h1>
         <span class="text-xs md:text-base"
           >Thương hiệu:
-          <strong class="text-primary-600-300-token text-sm md:text-lg">
+          <strong class="text-secondary-500-400-token text-sm md:text-lg">
             <a title="Show vendor" href="/collections/vendors?q=logitech">{product.brand.name}</a>
           </strong>
         </span>
         <span class="text-xs md:text-base"
-          >Thời gian bảo hành: <strong class="text-primary-600-300-token text-sm md:text-lg"
+          >Thời gian bảo hành: <strong class="text-secondary-500-400-token text-sm md:text-lg"
             >24 tháng</strong
           ></span
         >
@@ -62,7 +62,7 @@
         <div class="lg:max-w-[66.7%] lg:flex-[66.7%] max-w-full flex-[100%] px-4">
           <div class="price flex items-center rounded p-4 bg-surface-200-700-token mb-4">
             <span class="font-semibold w-1/5 hidden md:block">Giá: </span>
-            <span class="text-primary-600-300-token text-lg md:text-2xl font-semibold pr-2"
+            <span class="text-secondary-500-400-token text-lg md:text-2xl font-semibold pr-2"
               >{convertPriceToCurrency(product.price)}</span
             >
             <!-- <del class="text-gray-400 text-sm md:text-lg mr-2">2,790,000₫</del>
@@ -99,14 +99,14 @@
             <div class="mt-4 flex">
               <button
                 type="button"
-                class="rounded text-[15px] font-semibold w-full px-5 py-3 uppercase bg-surface-800-200-token text-primary-600-300-token border-[1px] border-primary-600-300-token"
+                class="rounded text-[15px] font-semibold w-full px-5 py-3 uppercase variant-ringed-secondary"
                 on:click={addProductToCart}
               >
                 Thêm vào giỏ
               </button>
               <button
                 type="button"
-                class="btn rounded text-[15px] font-semibold w-full px-5 py-3 uppercase bg-primary-600-300-token text-tertiary-50-900-token ml-4"
+                class="btn rounded text-[15px] font-semibold w-full px-5 py-3 uppercase variant-filled-secondary ml-4"
               >
                 Mua ngay
               </button>
