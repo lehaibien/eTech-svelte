@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getUserFromToken, setUser } from '../../stores/userStore';
+  import { getUserFromToken, setUser } from '../../../stores/userStore';
 
   const onFormSubmit = async (value: SubmitEvent) => {
     const token = await fetch('https://localhost:7066/api/authenticate/login', {
@@ -10,7 +10,7 @@
       body: JSON.stringify({ username, password })
     }).then((res) => res.json());
     localStorage.setItem('accessToken', JSON.stringify(token));
-    const user = await getUserFromToken(token);
+    const user = await getUserFromToken(token.accessToken);
     setUser(user);
   };
   let username: string;

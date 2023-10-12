@@ -59,7 +59,7 @@
   <div class="ml-3 items-center p-3 hidden md:inline-block">
     <div class="inline-flex items-center gap-1">
       <img
-        class="w-4 h-4 invert-0 dark:invert"
+        class="w-6 h-6 invert-0 dark:invert"
         src="//theme.hstatic.net/200000637319/1000990988/14/header_03_policy_1_ico.png?v=367"
         alt=""
       />
@@ -67,7 +67,7 @@
     </div>
     <div class="inline-flex items-center gap-1">
       <img
-        class="w-4 h-4 invert-0 dark:invert"
+        class="w-6 h-6 invert-0 dark:invert"
         src="//theme.hstatic.net/200000637319/1000990988/14/header_03_policy_2_ico.png?v=367"
         alt=""
       />
@@ -75,7 +75,7 @@
     </div>
     <div class="inline-flex items-center gap-1">
       <img
-        class="w-4 h-4 invert-0 dark:invert"
+        class="w-6 h-6 invert-0 dark:invert"
         src="//theme.hstatic.net/200000637319/1000990988/14/header_03_policy_3_ico.png?v=367"
         alt=""
       />

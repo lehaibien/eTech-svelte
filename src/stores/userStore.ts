@@ -22,7 +22,7 @@ export const getUserFromToken = async (token: string) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token.accessToken}`
+      Authorization: `Bearer ${token}`
     }
   }).then((res) => res.json());
   return user;
