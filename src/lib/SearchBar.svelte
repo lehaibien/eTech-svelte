@@ -74,7 +74,8 @@
           class="search-item p-3 border-b-surface-300 dark:border-b-surface-600 flex items-center border-b"
         >
           <div class="w-5/6 pr-1 relative mt-0 flex flex-col">
-            <a href="/products/${s.id}"
+            <a
+              href="/products/{s.id}"
               class="text-xs text-ellipsis whitespace text-left mt-2 mb-1 font-semibold"
               on:click={handleProductClick}>{s.name}</a
             >
@@ -83,7 +84,7 @@
             </p>
           </div>
           <div class="w-1/6 inline-block text-right">
-            <a href="/products/${s.id}" on:click={handleProductClick}>
+            <a href="/products/{s.id}" on:click={handleProductClick}>
               <img src={s.images[0].filePath} alt="logitech" />
             </a>
           </div>

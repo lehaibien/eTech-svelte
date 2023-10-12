@@ -5,7 +5,7 @@
   import AdminSideBar from '$lib/AdminSideBar.svelte';
 </script>
 
-<AppShell slotSidebarLeft="w-1/6">
+<AppShell slotSidebarLeft="w-[14.2857143%]">
   <!-- (header) -->
   <svelte:fragment slot="sidebarLeft">
     <AdminSideBar />
@@ -14,7 +14,9 @@
   <!-- (pageHeader) -->
   <!-- Router Slot -->
   <AdminHeader />
-  <slot />
+  <div class="p-6">
+    <slot />
+  </div>
   <!-- ---- / ---- -->
   <!-- (pageFooter) -->
   <!-- (footer) -->
