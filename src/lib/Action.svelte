@@ -2,7 +2,7 @@
   import { Drawer, getDrawerStore, type DrawerSettings } from '@skeletonlabs/skeleton';
   import { onMount } from 'svelte';
   import { cartStore, removeFromCart } from '../stores/cartStore';
-  import { getUserFromToken, setUser } from '../stores/userStore';
+  import { getUserFromToken, setUser, userStore } from '../stores/userStore';
   import { convertPriceToCurrency } from './helper';
   import type { CartItem } from './types';
   let totalCartItem = 0;
@@ -31,11 +31,10 @@
       quantity[index]--;
     }
   };
-  let user: any = null;
-  onMount(async () => {
-    const token = JSON.parse(localStorage.getItem('accessToken'));
-    user = await getUserFromToken(token);
-    setUser(user);
+  let user = null;
+  userStore.subscribe((u) => {
+    user = u;
+    if (u !== null) console.log(u.name);
   });
 </script>
 

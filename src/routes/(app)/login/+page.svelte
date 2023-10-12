@@ -9,17 +9,16 @@
       },
       body: JSON.stringify({ username, password })
     }).then((res) => res.json());
-    if (token.accessToken == undefined) {
+    console.log(token.accessToken);
+    if (token.accessToken === undefined || token.accessToken === null) {
       error = true;
-      const Username = document.querySelector('#username');
-      Username.value = '';
-      const Password = document.querySelector('#password');
-      Password.value = '';
+      username = '';
+      password = '';
     } else {
       window.location.href = '/';
     }
     localStorage.setItem('accessToken', JSON.stringify(token));
-    const user = await getUserFromToken(token);
+    const user = await getUserFromToken(token.accessToken);
     setUser(user);
   };
   onMount(() => {
