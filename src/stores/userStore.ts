@@ -4,7 +4,11 @@ import { writable } from 'svelte/store';
 export const userState : User = null ;
 
 export const getUserInit = async () => {
-  const token = JSON.parse(localStorage.getItem('accessToken')).accessToken;
+  const localAccessToken = localStorage.getItem('accessToken');
+  if(localAccessToken === null) {
+    return;
+  }
+  const token = JSON.parse(localAccessToken).accessToken;
   if(token === undefined || token === null){
     console.log("Token doesn't exists!");
     return;

@@ -16,11 +16,18 @@
   let user = null;
   $: onMount(() => {
     getUserInit()
-    userStore.subscribe((u) => {
-    user = u;
-    console.log(user)
   });
-  })
+  userStore.subscribe((u) => {
+    user = u;
+    console.log("Log user from Action.Svelte: " + user);
+  });
+  const increaseQuantity = (i: number) => {
+
+  }
+
+  const decreaseQuantity = (i: number) => {
+
+  }
   
 </script>
 
