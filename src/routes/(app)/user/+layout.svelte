@@ -13,7 +13,7 @@
     });
   });
 </script>
-<div class="container flex items-center">
+<div class="w-[80%] mx-auto">
   <AppShell>
     <svelte:fragment slot="sidebarLeft">
       <div class="inline-flex items-center mt-5 py-2 w-full bg-surface-800 rounded-md justify-around">

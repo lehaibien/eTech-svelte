@@ -1,34 +1,29 @@
 <script lang="ts">
   import { Tab, TabGroup } from '@skeletonlabs/skeleton';
-    import { onMount } from 'svelte';
   let tabSet: number = 0;
-  onMount(() => {
-    const main = document.getElementById('main')
-  console.log(main?.offsetWidth)
-  })
 </script>
-<div class="ms-5 scroll-smooth flex overflow-x-auto rounded-md mt-5 snap-x">
-  <TabGroup class="bg-slate-800">
-    <Tab bind:group={tabSet} name="tab1" value={0} class="hover:text-primary-700-200-token hover:font-bold snap-center">
-      <span id="main" class="snap-start">Tất cả</span>
+<div class="ms-5 flex rounded-md mt-5">
+  <TabGroup class="bg-slate-800 mx-auto">
+    <Tab bind:group={tabSet} name="tab1" value={0} class="hover:text-primary-700-200-token hover:font-bold">
+      <span id="main">Tất cả</span>
     </Tab>
-    <Tab bind:group={tabSet} name="tab2" value={1} class="hover:text-primary-700-200-token hover:font-bold snap-center">
-      <span class="snap-start">Chờ thanh toán</span>
+    <Tab bind:group={tabSet} name="tab2" value={1} class="hover:text-primary-700-200-token hover:font-bold">
+      <span>Chờ thanh toán</span>
     </Tab>
-    <Tab bind:group={tabSet} name="tab3" value={2} class="hover:text-primary-700-200-token hover:font-bold snap-center">
-      <span class="snap-start">Vận chuyển</span>
+    <Tab bind:group={tabSet} name="tab3" value={2} class="hover:text-primary-700-200-token hover:font-bold">
+      <span>Vận chuyển</span>
     </Tab>
-    <Tab bind:group={tabSet} name="tab4" value={3} class="hover:text-primary-700-200-token hover:font-bold snap-center">
-      <span class="snap-start">Đang giao</span>
+    <Tab bind:group={tabSet} name="tab4" value={3} class="hover:text-primary-700-200-token hover:font-bold">
+      <span>Đang giao</span>
     </Tab>
-    <Tab bind:group={tabSet} name="tab5" value={4} class="hover:text-primary-700-200-token hover:font-bold snap-center">
-      <span class="snap-start">Hoàn thành</span>
+    <Tab bind:group={tabSet} name="tab5" value={4} class="hover:text-primary-700-200-token hover:font-bold">
+      <span>Hoàn thành</span>
     </Tab>
-    <Tab bind:group={tabSet} name="tab6" value={5} class="hover:text-primary-700-200-token hover:font-bold snap-center">
-      <span class="snap-start">Đã hủy</span>
+    <Tab bind:group={tabSet} name="tab6" value={5} class="hover:text-primary-700-200-token hover:font-bold">
+      <span>Đã hủy</span>
     </Tab>
-    <Tab bind:group={tabSet} name="tab7" value={6} class="hover:text-primary-700-200-token hover:font-bold snap-center">
-      <span class="snap-start">Trả hàng/Hoàn tiền</span>
+    <Tab bind:group={tabSet} name="tab7" value={6} class="hover:text-primary-700-200-token hover:font-bold">
+      <span>Trả hàng/Hoàn tiền</span>
     </Tab>
     <!-- Tab Panels --->
     <svelte:fragment slot="panel">

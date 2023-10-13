@@ -18,7 +18,12 @@
     formData.append('name', brand.name);
     formData.append('country', brand.country);
     formData.append('image', files[0]);
-    const token = JSON.parse(localStorage.getItem('accessToken')).accessToken;
+    const localAccessToken = localStorage.getItem('accessToken');
+    if(localAccessToken === null) {
+      alert("User is not logged in");
+      return;
+    }
+    const token = JSON.parse(localAccessToken).accessToken;
     const res = await fetch('https://localhost:7066/api/brand', {
       method: 'POST',
       headers: {
