@@ -1,6 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { FileDropzone } from '@skeletonlabs/skeleton';
+  import { FileDropzone, Toast, getToastStore } from '@skeletonlabs/skeleton';
+  import type { ToastSettings } from '@skeletonlabs/skeleton';
   let files: FileList | undefined;
   const removeImage = () => {
     files = undefined;
@@ -11,7 +12,7 @@
   };
   const addCategory = async () => {
     if (files === undefined || files.length === 0) {
-      alert('Vui lòng chọn hình ảnh cho sản phẩm');
+      toastStore.trigger(t);
       return;
     }
     const formData = new FormData();
@@ -33,8 +34,15 @@
       alert('Thêm hãng thất bại');
     }
   };
+  const toastStore = getToastStore();
+  const t: ToastSettings = {
+    message: 'Vui lòng chọn hình ảnh cho sản phẩm.',
+    background: 'variant-filled-error',
+    timeout: 1500
+  };
 </script>
 
+<Toast position='t' max={1}/>
 <div class="h-full flex flex-col">
   <h1>Thêm hãng mới</h1>
   <div class="grid grid-cols-1 md:grid-cols-2 py-4 gap-3">

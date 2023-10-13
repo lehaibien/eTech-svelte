@@ -3,8 +3,14 @@
   import { cartStore, removeFromCart, clearCart } from '../stores/cartStore';
   import { convertPriceToCurrency } from './helper';
   import type { CartItem, User } from './types';
-    import { onMount } from 'svelte';
-  import { userStore, userState, getUserFromToken, setUser, getUserInit } from '../stores/userStore';
+  import { onMount } from 'svelte';
+  import {
+    userStore,
+    userState,
+    getUserFromToken,
+    setUser,
+    getUserInit
+  } from '../stores/userStore';
   let totalCartItem = 0;
   let cartItems: CartItem[] = [];
   let quantity: number[] = [];
@@ -15,20 +21,30 @@
   });
   let user = null;
   $: onMount(() => {
-    getUserInit()
+    getUserInit();
   });
   userStore.subscribe((u) => {
     user = u;
-    console.log("Log user from Action.Svelte: " + user);
+    console.log('Log user from Action.Svelte: ' + user);
   });
-  const increaseQuantity = (i: number) => {
-
-  }
-
-  const decreaseQuantity = (i: number) => {
-
-  }
-  
+  const drawerStore = getDrawerStore();
+  const drawerSettings: DrawerSettings = {
+    id: 'cart-drawer',
+    position: 'right',
+    width: 'w-[50px] md:w-[500px]'
+  };
+  const handleQuantity = () => {
+    //do nothing for now
+    // TODO: handle quantity change
+  };
+  const increaseQuantity = (index: number) => {
+    quantity[index]++;
+  };
+  const decreaseQuantity = (index: number) => {
+    if (quantity[index] > 1) {
+      quantity[index]--;
+    }
+  };
 </script>
 
 <Drawer>
