@@ -105,7 +105,10 @@
           </svelte:fragment>
           <svelte:fragment slot="summary">Cài đặt</svelte:fragment>
           <svelte:fragment slot="content">
-            <LightSwitch />
+            <div class="inline-flex ms-10">
+              <p class="me-3">Chế độ sáng: </p>
+              <LightSwitch />
+            </div>
           </svelte:fragment>
         </AccordionItem>
       </Accordion>
