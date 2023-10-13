@@ -1,13 +1,23 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { FileDropzone } from '@skeletonlabs/skeleton';
+  import { page } from '$app/stores';
+  import { onMount } from 'svelte';
+  import type { Image } from '$lib/types';
+    import { geturlextension } from '$lib/helper';
   let files: FileList | undefined;
   const removeImage = () => {
     files = undefined;
   };
-  let brand = {
+  interface AdminBrand {
+    name: string;
+    country: string;
+    image: Image | null;
+  }
+  let brand: AdminBrand = {
     name: '',
-    country: ''
+    country: '',
+    image: null
   };
   const addCategory = async () => {
     if (files === undefined || files.length === 0) {
@@ -15,33 +25,66 @@
       return;
     }
     const formData = new FormData();
+    formData.append('id', $page.params.id);
     formData.append('name', brand.name);
     formData.append('country', brand.country);
     formData.append('image', files[0]);
     const localAccessToken = localStorage.getItem('accessToken');
-    if(localAccessToken === null) {
-      alert("User is not logged in");
+    if (localAccessToken === null) {
+      alert('User is not logged in');
       return;
     }
+    console.log(formData.get('image'));
     const token = JSON.parse(localAccessToken).accessToken;
     const res = await fetch('https://localhost:7066/api/brand', {
-      method: 'POST',
+      method: 'PUT',
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: formData
     });
     if (res.status === 201 || res.status === 200) {
-      alert('Thêm hãng thành công');
+      alert('Cập nhật hãng thành công');
       goto('/admin/brands');
     } else {
-      alert('Thêm hãng thất bại');
+      alert('Cập nhật hãng thất bại');
     }
   };
+  onMount(async () => {
+    const id = $page.params.id;
+    const localAccessToken = localStorage.getItem('accessToken');
+    if (localAccessToken === null) {
+      alert('User is not logged in');
+      return;
+    }
+    const token = JSON.parse(localAccessToken).accessToken;
+    const data = await fetch(`https://localhost:7066/api/brand/${id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((res) => res.json());
+    brand = data;
+    if (brand !== null && brand.image !== null) {
+      const response = await fetch(`https://localhost:7066/api/brand/${id}/image`);
+      const blob = await response.blob();
+      const fileType = "image/" + geturlextension(brand.image?.fileName);
+      const file: File = new File([blob], brand.image?.fileName, {
+        type: fileType
+      });
+      files = [file];
+    }
+
+    console.log(brand);
+  });
 </script>
 
+<svelte:head>
+  <title>Cập nhật hãng | eTech</title>
+</svelte:head>
+
 <div class="h-full flex flex-col">
-  <h1>Thêm hãng mới</h1>
+  <h1>Cập nhật hãng</h1>
   <div class="grid grid-cols-1 md:grid-cols-2 py-4 gap-3">
     <div class="col-span-1 p-6 border border-surface-300-600-token">
       <h3 class="mb-2">Hình ảnh</h3>

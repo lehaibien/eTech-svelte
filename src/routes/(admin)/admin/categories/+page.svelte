@@ -35,12 +35,13 @@
 </script>
 
 {#if categories}
-  <Table
-    regionHeadCell="bg-secondary-600-300-token text-white dark:text-black whitespace-nowrap"
-    source={tableSource}
-    interactive
-    on:selected={(e) => {
-      console.log(e.detail);
-    }}
-  />
+  <div class="flex flex-col">
+    <Table
+      regionHeadCell="bg-secondary-600-300-token text-white dark:text-black whitespace-nowrap"
+      source={tableSource}
+    />
+    <a href="/admin/categories/new" class="btn variant-ghost-primary rounded-md mt-2 self-end">
+      Thêm thể loại mới
+    </a>
+  </div>
 {/if}

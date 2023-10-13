@@ -1,8 +1,9 @@
 <script lang="ts">
   import AdminHeader from '$lib/AdminHeader.svelte';
-  import { AppShell } from '@skeletonlabs/skeleton';
+  import { AppShell, initializeStores } from '@skeletonlabs/skeleton';
   import '../../../app.postcss';
   import AdminSideBar from '$lib/AdminSideBar.svelte';
+  initializeStores();
 </script>
 
 <AppShell slotSidebarLeft="w-[14.2857143%]">

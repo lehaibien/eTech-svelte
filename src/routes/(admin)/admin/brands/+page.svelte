@@ -17,7 +17,7 @@
         body: brands.map((brand) => {
           return [
             `<img src="${brand.image.filePath}" alt="${brand.name}" class="max-w-[100px] max-h-[100px] mx-auto" />`,
-            brand.name,
+            `${brand.name}`,
             brand.country,
             `<button class="btn">Chỉnh sửa</button>`
           ];
