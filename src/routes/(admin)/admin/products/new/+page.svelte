@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   import { FileDropzone } from '@skeletonlabs/skeleton';
   import { onMount } from 'svelte';
-  let files: FileList;
+  let files: FileList | undefined;
   const removeImage = (index: number) => {
+    /* @ts-ignore */
     files = Array.from(files).filter((_, i) => i !== index);
   };
   let category: { id: number; name: string }[] = [];
@@ -44,7 +46,7 @@
     });
     if (res) {
       alert('Thêm sản phẩm thành công');
-      window.location.href = '/admin/products';
+      goto('/admin/products');
     } else {
       alert('Thêm sản phẩm thất bại');
     }
