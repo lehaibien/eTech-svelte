@@ -12,6 +12,7 @@ export interface Category {
   id: number;
   name: string;
   description: string;
+  image: Image;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -20,6 +21,7 @@ export interface Brand {
   id: number;
   name: string;
   country: string;
+  image: Image;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -12,9 +12,11 @@
   $: {
     if (products) {
       tableSource = {
-        head: ['Tên sản phẩm', 'Giá', 'Tồn kho', 'Thể loại', 'Hãng', 'Mô tả', ''],
+        head: ['', 'Tên sản phẩm', 'Giá', 'Tồn kho', 'Thể loại', 'Hãng', 'Mô tả', ''],
+        /* @ts-ignore */
         body: products.map((product) => {
           return [
+            `<img src="${product.images[0].filePath}" alt="${product.name}" class="max-w-[100px] max-h-[100px] mx-auto" />`,
             product.name,
             product.price,
             product.stock,
@@ -23,9 +25,8 @@
             product.description
           ];
         }),
-        meta: products.map((product) => {
-          return product;
-        }),
+        /* @ts-ignore */
+        meta: products,
         foot: [
           'Số lượng:',
           '',
