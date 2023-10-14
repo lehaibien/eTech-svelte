@@ -6,7 +6,6 @@
   import { onMount } from 'svelte';
   import { userStore, getUserInit } from '../stores/userStore';
   import { get } from 'svelte/store';
-    import { json } from 'stream/consumers';
   let totalCartItem = 0;
   let cartItems: CartItem[] = [];
   let quantity: number[] = [];
