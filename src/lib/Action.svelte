@@ -1,50 +1,32 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   import { Drawer, getDrawerStore, type DrawerSettings } from '@skeletonlabs/skeleton';
-  import { cartStore, removeFromCart, clearCart, getCart } from '../stores/cartStore';
+  import { onMount } from 'svelte';
+  import { cartStore, getCart, removeFromCart, updateCart } from '../stores/cartStore';
+  import { getUserInit, userStore } from '../stores/userStore';
   import { convertPriceToCurrency } from './helper';
   import type { CartItem, User } from './types';
-  import { onMount } from 'svelte';
-  import { userStore, getUserInit } from '../stores/userStore';
-  import { get } from 'svelte/store';
   let totalCartItem = 0;
   let cartItems: CartItem[] = [];
   let quantity: number[] = [];
   cartStore.subscribe((cart) => {
     totalCartItem = cart.items.length;
     cartItems = cart.items;
-    quantity = cart.items.map((item) => item.quantity);
   });
-  let user = null;
+  /* @ts-ignore */
+  let user: User = null;
   $: onMount(async () => {
     await getUserInit();
     await getCart();
-    user = get(userStore);
-    console.log("User from onMount action.svelte: " + JSON.stringify(user));
-    cartItems = get(cartStore).items;
-    totalCartItem = cartItems.length;
-    quantity = cartItems.map((item) => item.quantity);
   });
   userStore.subscribe((u) => {
     user = u;
-    console.log('Log user from Action.Svelte: ' + user);
   });
   const drawerStore = getDrawerStore();
   const drawerSettings: DrawerSettings = {
     id: 'cart-drawer',
     position: 'right',
-    width: 'w-[50px] md:w-[500px]'
-  };
-  const handleQuantity = () => {
-    //do nothing for now
-    // TODO: handle quantity change
-  };
-  const increaseQuantity = (index: number) => {
-    quantity[index]++;
-  };
-  const decreaseQuantity = (index: number) => {
-    if (quantity[index] > 1) {
-      quantity[index]--;
-    }
+    width: 'w-[50px] md:w-[420px]'
   };
 </script>
 
@@ -55,43 +37,23 @@
         <div class="p-4 flex justify-between items-center variant-glass-secondary rounded-lg">
           <a href="/products/{item.product.id}" class="flex gap-2 items-center w-2/3">
             <img
-              class="w-1/3 object-cover rounded-xl"
+              class="w-1/4 object-cover rounded-xl"
               src={item.product.images[0].filePath}
               alt={item.product.name}
             />
             <div id="product-container" class="w-2/3">
-              <h3 class="text-lg">{item.product.name}</h3>
-              <h4 class="text-sm text-tertiary-500-400-token">{item.product.brand.name}</h4>
+              <h3 class="text-base whitespace-nowrap">{item.product.name}</h3>
+              <h4 class="text-sm text-tertiary-500-400-token">Số lượng: {item.quantity}</h4>
               <div>
                 <span class="text-sm font-medium">{convertPriceToCurrency(item.product.price)}</span
                 >
               </div>
             </div>
           </a>
-          <div id="cart-quantity" class="w-1/3">
-            <div class="variant-glass-surface rounded-sm flex items-center w-2/3 mx-auto">
+          <div id="cart-quantity" class="w-1/6">
+            <div class="w-full mx-auto text-center">
               <button
-                type="button"
-                on:click={() => decreaseQuantity(i)}
-                class="w-1/3 px-2 py-2 text-sm variant-glass-secondary">-</button
-              >
-              <input
-                type="number"
-                id="quantity"
-                name="quantity"
-                value={quantity[i]}
-                min="1"
-                class="text-sm p-0 bg-transparent border-none appearance-none w-1/2 px-2 py-2 text-center z-10"
-              />
-              <button
-                type="button"
-                on:click={() => increaseQuantity(i)}
-                class="w-1/3 px-2 py-2 text-sm rounded-none variant-glass-secondary">+</button
-              >
-            </div>
-            <div class="w-1/2 mx-auto text-center">
-              <button
-                class="text-sm font-semibold text-rose-500 dark:text-rose-300 mt-2"
+                class="btn rounded-xl text-sm font-semibold variant-ghost-error mt-2"
                 on:click={() => removeFromCart(item.product.id)}>Xóa</button
               >
             </div>
@@ -99,10 +61,13 @@
         </div>
       </div>
     {/each}
-    <a
-      href="/cart"
+    <button
+      on:click={() => {
+        goto('/cart');
+        drawerStore.close();
+      }}
       class="btn absolute variant-filled-tertiary rounded-t-lg rounded-b-none bottom-0 w-full"
-      >Xem giỏ hàng</a
+      >Xem giỏ hàng</button
     >
   </div>
 </Drawer>
