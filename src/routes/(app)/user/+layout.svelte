@@ -1,15 +1,14 @@
 <script lang="ts">
   import { AppShell, Avatar, LightSwitch } from '@skeletonlabs/skeleton';
-  import { onMount } from 'svelte';
-  import { getUserInit, userStore } from '../../../stores/userStore';
+  import { userStore } from '../../../stores/userStore';
   import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
-  import { get } from 'svelte/store';
   import { page } from '$app/stores';
   let user: any = null;
   let imageUser: string = null;
   userStore.subscribe((u) => {
       user = u;
       imageUser = u?.image.filePath;
+      console.log(user)
   });
 </script>
 <div class=" max-w-[1100px] mx-auto">
@@ -47,6 +46,41 @@
       </div>
       <div class="mt-5 bg-surface-800 rounded-md">
         <Accordion>
+          {#if $page.url.pathname.includes('profile')}
+          <AccordionItem open>
+            <svelte:fragment slot="lead">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                />
+              </svg>
+            </svelte:fragment>
+            <svelte:fragment slot="summary">Tài Khoản Của Tôi</svelte:fragment>
+            <svelte:fragment slot="content">
+              <ul class="ms-11">
+                <li>
+                  {#if $page.url.pathname.includes('profile')}
+                    <a href="/user/profile" class="font-bold text-primary-600-300-token">Hồ Sơ</a>
+                  {:else}
+                    <a href="/user/profile">Hồ Sơ</a>
+                  {/if}
+                </li>
+                <li>
+                  <a href="/">Địa chỉ</a>
+                </li>
+              </ul>
+            </svelte:fragment>
+          </AccordionItem>
+          {:else}
           <AccordionItem>
             <svelte:fragment slot="lead">
               <svg
@@ -68,14 +102,15 @@
             <svelte:fragment slot="content">
               <ul class="ms-11">
                 <li>
-                  <a href="">Hồ Sơ</a>
+                  <a href="/user/profile">Hồ Sơ</a>
                 </li>
                 <li>
-                  <a href="">Địa chỉ</a>
+                  <a href="/user/profile">Địa chỉ</a>
                 </li>
               </ul>
             </svelte:fragment>
           </AccordionItem>
+          {/if}
         </Accordion>
         <a href="" class="flex px-4 py-2 hover:bg-primary-hover-token rounded">
           <svg
@@ -93,10 +128,9 @@
             />
           </svg>
           {#if $page.url.pathname === '/user/purchase'}
-            <p class="ms-5 font-bold">Đơn mua</p>
-          
+            <a  href="/user/purchase" class="ms-5 font-bold text-primary-600-300-token">Đơn mua</a>
           {:else}
-            <p class="ms-5">Đơn mua</p>
+            <a href="/user/purchase" class="ms-5">Đơn mua</a>
           {/if}
         </a>
         <Accordion>
