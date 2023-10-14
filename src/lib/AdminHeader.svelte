@@ -1,6 +1,15 @@
 <script lang="ts">
   import AdminSearchBar from './AdminSearchBar.svelte';
   import { page } from '$app/stores';
+  import { LightSwitch } from '@skeletonlabs/skeleton';
+  type Dict = { [key: string]: string };
+  const crumbAsVietnamese: Dict = {
+    users: 'Người dùng',
+    categories: 'Danh mục',
+    brands: 'Hãng',
+    products: 'Sản phẩm',
+    orders: 'Đơn hàng',
+  };
   let currentPage = '';
   $: currentPage = $page.url.pathname;
   // split the url into an array (don't forget to remove the first slash and admin)
@@ -17,13 +26,14 @@
       const capitalizedCrumb = crumb.charAt(0).toUpperCase() + crumb.slice(1);
       // join the words back together with a space
       // return the label and the link
-      return { label: capitalizedCrumb, link: `/admin/${crumb}` };
+      const crumbTitle = crumbAsVietnamese[crumb];
+      return { label: crumbTitle ?? capitalizedCrumb, link: `/admin/${crumb}` };
     });
   console.log(myBreadcrumbs);
 </script>
 
 <div class="grid grid-cols-4 gap-4 place-items-center w-full pt-3">
-  <div class="col-span-1 w-full p-2">
+  <div class="col-span-3 md:col-span-1 w-full p-2">
     <ol class="breadcrumb">
       <li class="crumb">
         <a href="/admin">
@@ -85,10 +95,10 @@
       {/each}
     </ol>
   </div>
-  <div class="col-span-2 w-full">
+  <div class="col-span-2 hidden md:block w-full">
     <AdminSearchBar />
   </div>
   <div class="col-span-1">
-    <h1>Hello</h1>
+    <LightSwitch />
   </div>
 </div>

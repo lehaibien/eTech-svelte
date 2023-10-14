@@ -44,7 +44,7 @@
 {#if products}
   <div class="flex flex-col">
     <Table
-      regionHeadCell="bg-secondary-600-300-token text-white dark:text-black whitespace-nowrap"
+      regionHeadCell="variant-filled-tertiary whitespace-nowrap"
       source={tableSource}
     />
     <a href="/admin/products/new" class="btn variant-ghost-primary rounded-md mt-2 self-end">

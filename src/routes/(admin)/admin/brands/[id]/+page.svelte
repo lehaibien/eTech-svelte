@@ -19,7 +19,7 @@
     country: '',
     image: null
   };
-  const addCategory = async () => {
+  const addBrand = async () => {
     if (files === undefined || files.length === 0) {
       alert('Vui lòng chọn hình ảnh cho sản phẩm');
       return;
@@ -69,9 +69,10 @@
       const response = await fetch(`https://localhost:7066/api/brand/${id}/image`);
       const blob = await response.blob();
       const fileType = "image/" + geturlextension(brand.image?.fileName);
-      const file: File = new File([blob], brand.image?.fileName, {
+      const file: File = new File([blob], brand.image?.originalFileName, {
         type: fileType
       });
+      /* @ts-ignore */
       files = [file];
     }
 
@@ -147,7 +148,10 @@
       </div>
     </div>
   </div>
-  <button class="btn rounded-lg variant-filled-primary self-end" on:click={addCategory}
-    >Thêm hãng mới</button
-  >
+  <div class="self-end flex gap-2 items-center">
+    <a href="/admin/brands" class="btn rounded-lg variant-glass-error">Trở về</a>
+    <button class="btn rounded-lg variant-filled-primary" on:click={addBrand}>
+      Cập nhật
+    </button>
+  </div>
 </div>

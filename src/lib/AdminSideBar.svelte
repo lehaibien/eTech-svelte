@@ -1,8 +1,21 @@
 <script>
   import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
   import { page } from '$app/stores';
+  import { getUserInit, userStore } from '../stores/userStore';
+  import { get } from 'svelte/store';
+  import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
   let currentPage = '';
   $: currentPage = $page.url.pathname;
+  onMount(async () => {
+    await getUserInit();
+    let user = get(userStore);
+    if (user == null) {
+      goto('/login');
+    }
+  });
+  const appRailSvgClass = 'w-3 md:w-7 h-3 md:h-7';
+  const appRailTextClass = 'ml-1 md:ml-2 text-sm md:text-base';
 </script>
 
 <AppRail
@@ -10,7 +23,8 @@
   height="min-h-screen"
   aspectRatio="aspect-[30/9]"
   gap="gap-2"
-  active="bg-secondary-active-token"
+  active="bg-secondary-200-700-token"
+  hover="bg-inherit"
   regionDefault="flex flex-col"
   regionTrail="py-2"
 >
@@ -22,7 +36,7 @@
   <!-- --- -->
   <AppRailAnchor href="/admin/brands" selected={currentPage == '/admin/brands'}>
     <svelte:fragment slot="lead">
-      <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg class={appRailSvgClass} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="SVGRepo_bgCarrier" stroke-width="0" />
         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
         <g id="SVGRepo_iconCarrier">
@@ -50,12 +64,12 @@
           />
         </g>
       </svg>
-      <span class="ml-2">Hãng</span>
+      <span class={appRailTextClass}>Hãng</span>
     </svelte:fragment>
   </AppRailAnchor>
   <AppRailAnchor href="/admin/categories" selected={currentPage == '/admin/categories'}>
     <svelte:fragment slot="lead">
-      <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg class={appRailSvgClass} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="SVGRepo_bgCarrier" stroke-width="0" />
         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
         <g id="SVGRepo_iconCarrier">
@@ -93,12 +107,12 @@
           />
         </g>
       </svg>
-      <span class="ml-2">Thể loại</span>
+      <span class={appRailTextClass}>Thể loại</span>
     </svelte:fragment>
   </AppRailAnchor>
   <AppRailAnchor href="/admin/products" selected={currentPage == '/admin/products'}>
     <svelte:fragment slot="lead">
-      <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg class={appRailSvgClass} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="SVGRepo_bgCarrier" stroke-width="0" />
         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
         <g id="SVGRepo_iconCarrier">
@@ -116,12 +130,38 @@
           />
         </g>
       </svg>
-      <span class="ml-2">Sản phẩm</span>
+      <span class={appRailTextClass}>Sản phẩm</span>
+    </svelte:fragment>
+  </AppRailAnchor>
+  <AppRailAnchor href="/admin/orders" selected={currentPage == '/admin/orders'}>
+    <svelte:fragment slot="lead">
+      <svg
+        class={appRailSvgClass}
+        viewBox="0 0 1024 1024"
+        fill="currentColor"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g id="SVGRepo_bgCarrier" stroke-width="0" />
+        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+        <g id="SVGRepo_iconCarrier">
+          <path d="M300 462.4h424.8v48H300v-48zM300 673.6H560v48H300v-48z" fill="" />
+          <path
+            d="M818.4 981.6H205.6c-12.8 0-24.8-2.4-36.8-7.2-11.2-4.8-21.6-11.2-29.6-20-8.8-8.8-15.2-18.4-20-29.6-4.8-12-7.2-24-7.2-36.8V250.4c0-12.8 2.4-24.8 7.2-36.8 4.8-11.2 11.2-21.6 20-29.6 8.8-8.8 18.4-15.2 29.6-20 12-4.8 24-7.2 36.8-7.2h92.8v47.2H205.6c-25.6 0-47.2 20.8-47.2 47.2v637.6c0 25.6 20.8 47.2 47.2 47.2h612c25.6 0 47.2-20.8 47.2-47.2V250.4c0-25.6-20.8-47.2-47.2-47.2H725.6v-47.2h92.8c12.8 0 24.8 2.4 36.8 7.2 11.2 4.8 21.6 11.2 29.6 20 8.8 8.8 15.2 18.4 20 29.6 4.8 12 7.2 24 7.2 36.8v637.6c0 12.8-2.4 24.8-7.2 36.8-4.8 11.2-11.2 21.6-20 29.6-8.8 8.8-18.4 15.2-29.6 20-12 5.6-24 8-36.8 8z"
+            fill=""
+          />
+          <path
+            d="M747.2 297.6H276.8V144c0-32.8 26.4-59.2 59.2-59.2h60.8c21.6-43.2 66.4-71.2 116-71.2 49.6 0 94.4 28 116 71.2h60.8c32.8 0 59.2 26.4 59.2 59.2l-1.6 153.6z m-423.2-47.2h376.8V144c0-6.4-5.6-12-12-12H595.2l-5.6-16c-11.2-32.8-42.4-55.2-77.6-55.2-35.2 0-66.4 22.4-77.6 55.2l-5.6 16H335.2c-6.4 0-12 5.6-12 12v106.4z"
+            fill=""
+          />
+        </g>
+      </svg>
+      <span class={appRailTextClass}>Đơn hàng</span>
     </svelte:fragment>
   </AppRailAnchor>
   <!-- --- -->
   <svelte:fragment slot="trail">
-    <div class="w-full h-full flex items-center justify-center">
+    <div class="w-full h-full flex items-center justify-center p-3">
       <h2>Developed by <span class="text-primary-600-300-token">lehaibien, hoangnhi</span>.</h2>
     </div>
   </svelte:fragment>

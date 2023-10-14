@@ -1,6 +1,6 @@
 import type { CartItem, Product, User } from '$lib/types';
 import { get, writable } from 'svelte/store';
-import { getUserFromToken, userStore } from './userStore';
+import { getUserFromToken, getUserInit, userStore } from './userStore';
 
 // Define the initial state of the cart
 interface CartState {
@@ -14,44 +14,45 @@ const initialCartState: CartState = {
   total: 0
 };
 
-const getCart = (): CartState => {
+export const getCart = async () => {
+  getUserInit();
   const user = get(userStore);
   if (user === null) {
-    return initialCartState;
+    return;
   }
   const userId = user.id;
-  const cart: CartState = fetch(`https://localhost:7066/api/cart/${userId}`, {
+  const cart: CartState = await fetch(`https://localhost:7066/api/cart/${userId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     }
   }).then((res) => res.json());
-  console.log(cart)
-  if(cart === undefined || cart.items === undefined) {
-    return initialCartState;
+  console.log(cart);
+  if (cart === undefined || cart.items === undefined) {
+    return;
   }
   cart.total = cart.items.reduce((acc, item) => {
     return acc + item.product.price * item.quantity;
   }, 0);
-  return {
-    user: user,
-    items: cart.items,
-    total: cart.total
-  };
+  cartStore.update(c => 
+    cart);
 };
 
 // Create a writable store with the initial state
-export const cartStore = writable(getCart());
+export const cartStore = writable(initialCartState);
 
 // Define actions to update the cart state
 export const addToCart = async (item: Product, quantity = 1) => {
-  const token = JSON.parse(localStorage.getItem('accessToken')).accessToken
+  const localAccessToken = localStorage.getItem('accessToken');
+  if (localAccessToken === null) {
+    return;
+  }
+  const token = JSON.parse(localAccessToken).accessToken;
   const user = await getUserFromToken(token);
   let cartItem: CartItem = {
     product: null,
     quantity: 0
   };
-  console.log(user);
   try {
     cartItem = await fetch(`https://localhost:7066/api/cart/`, {
       method: 'POST',
@@ -65,8 +66,8 @@ export const addToCart = async (item: Product, quantity = 1) => {
         quantity: quantity
       })
     }).then((res) => res.json());
-  } catch {
-    console.log('Error adding to cart');
+  } catch (e) {
+    console.log('Error adding to cart: ' + e);
     return;
   }
   cartStore.update((cart) => {
