@@ -15,14 +15,14 @@
 
 <div class="banner">
   <img
-    src="https://theme.hstatic.net/200000637319/1000990988/14/slide_3_img.jpg?v=367"
+    src="/images/banner.png"
     alt=""
-    class="w-full"
+    class="w-full rounded-md"
   />
 </div>
 <div class="featured-category mt-2">
   <h2 class="text-2xl font-bold uppercase">Danh mục nổi bật</h2>
-  <div class="grid grid-cols-5">
+  <div class="grid grid-cols-6">
     {#if categories}
       {#each categories as category}
         <div class="col-span-1">

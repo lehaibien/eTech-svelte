@@ -15,27 +15,34 @@ const initialCartState: CartState = {
 };
 
 export const getCart = async () => {
-  getUserInit();
   const user = get(userStore);
   if (user === null) {
     return;
   }
   const userId = user.id;
-  const cart: CartState = await fetch(`https://localhost:7066/api/cart/${userId}`, {
+  const cart = await fetch(`https://localhost:7066/api/cart/${userId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     }
   }).then((res) => res.json());
-  console.log(cart);
-  if (cart === undefined || cart.items === undefined) {
+  const cartState : CartState = {
+    user: user,
+    items: cart.map(item => {
+      return {
+        product: item.product,
+        quantity: item.quantity
+      }
+    }),
+    total: 0
+  }
+  if (cartState === undefined || cartState.items === undefined) {
     return;
   }
-  cart.total = cart.items.reduce((acc, item) => {
+  cartState.total = cartState.items.reduce((acc, item) => {
     return acc + item.product.price * item.quantity;
   }, 0);
-  cartStore.update(c => 
-    cart);
+  cartStore.set(cartState);
 };
 
 // Create a writable store with the initial state
@@ -95,7 +102,80 @@ export const addToCart = async (item: Product, quantity = 1) => {
   });
 };
 
-export const removeFromCart = (productId: number) => {
+export const updateCart = async (item: CartItem, quantity: number) => {
+  const localAccessToken = localStorage.getItem('accessToken');
+  if (localAccessToken === null) {
+    return;
+  }
+  const token = JSON.parse(localAccessToken).accessToken;
+  const user = await getUserFromToken(token);
+  let cartItem: CartItem = {
+    product: null,
+    quantity: 0
+  };
+  try {
+    cartItem = await fetch(`https://localhost:7066/api/cart/`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        userId: user.id,
+        productId: item.product.id,
+        quantity: quantity
+      })
+    }).then((res) => res.json());
+  } catch (e) {
+    console.log('Error adding to cart: ' + e);
+    return;
+  }
+  cartStore.update((cart) => {
+    cart.user = user;
+    // Check if the item already exists in the cart
+    if (cartItem.product === null) {
+      return cart;
+    }
+    const existingItem = cart.items.find((i) => i.product.id === cartItem.product.id);
+    if (existingItem) {
+      // If it does, update the quantity
+      existingItem.quantity = cartItem.quantity;
+    } else {
+      // Otherwise, add the new item
+      cart.items.push(cartItem);
+    }
+    // Update the total price of the cart
+    cart.total = cart.items
+      .map((item) => item.product.price * item.quantity)
+      .reduce((acc, price) => acc + price, 0);
+    console.log(cart);
+
+    // Return the updated cart state
+    return cart;
+  });
+}
+
+export const removeFromCart = async (productId: number) => {
+  const localAccessToken = localStorage.getItem('accessToken');
+  if (localAccessToken === null) {
+    return;
+  }
+  const token = JSON.parse(localAccessToken).accessToken;
+  const user = get(userStore);
+  if (user === null) {
+    return;
+  }
+  const res = await fetch(`https://localhost:7066/api/cart/${user.id}/${productId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  });
+  if (res === undefined || res.status !== 204) {
+    return;
+  }
+  
   cartStore.update((cart) => {
     // Find the index of the item with the matching id
     const index = cart.items.findIndex((i) => i.product.id === productId);
@@ -107,7 +187,6 @@ export const removeFromCart = (productId: number) => {
 
       // Update the total price of the cart
       cart.total -= item.product.price * item.quantity;
-      localStorage.setItem('cart', JSON.stringify(cart));
     }
 
     // Return the updated cart state
