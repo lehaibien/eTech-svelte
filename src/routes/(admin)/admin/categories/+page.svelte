@@ -18,7 +18,8 @@
           return [
             `<img src="${category.image.filePath}" alt="${category.name}" class="max-w-[100px] max-h-[100px] mx-auto" />`,
             category.name,
-            category.description
+            category.description,
+            `<a href="/admin/categories/${category.id}" class="btn variant-ghost-primary rounded-md">Cập nhật</a>`
           ];
         }),
         /* @ts-ignore */
@@ -37,7 +38,7 @@
 {#if categories}
   <div class="flex flex-col">
     <Table
-      regionHeadCell="bg-secondary-600-300-token text-white dark:text-black whitespace-nowrap"
+      regionHeadCell="variant-filled-tertiary whitespace-nowrap"
       source={tableSource}
     />
     <a href="/admin/categories/new" class="btn variant-ghost-primary rounded-md mt-2 self-end">

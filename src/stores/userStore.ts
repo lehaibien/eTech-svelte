@@ -10,12 +10,10 @@ export const getUserInit = async () => {
   }
   const token = JSON.parse(localAccessToken).accessToken;
   if(token === undefined || token === null){
-    console.log("Token doesn't exists!");
     return;
   }
-  console.log("Token exists");
   const user = await getUserFromToken(token);
-  userStore.set(user);
+  setUser(user);
 }
 
  export const userStore = writable(userState);

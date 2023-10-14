@@ -1,16 +1,12 @@
 <script lang="ts">
   import { Drawer, getDrawerStore, type DrawerSettings } from '@skeletonlabs/skeleton';
-  import { cartStore, removeFromCart, clearCart } from '../stores/cartStore';
+  import { cartStore, removeFromCart, clearCart, getCart } from '../stores/cartStore';
   import { convertPriceToCurrency } from './helper';
   import type { CartItem, User } from './types';
   import { onMount } from 'svelte';
-  import {
-    userStore,
-    userState,
-    getUserFromToken,
-    setUser,
-    getUserInit
-  } from '../stores/userStore';
+  import { userStore, getUserInit } from '../stores/userStore';
+  import { get } from 'svelte/store';
+    import { json } from 'stream/consumers';
   let totalCartItem = 0;
   let cartItems: CartItem[] = [];
   let quantity: number[] = [];
@@ -20,8 +16,14 @@
     quantity = cart.items.map((item) => item.quantity);
   });
   let user = null;
-  $: onMount(() => {
-    getUserInit();
+  $: onMount(async () => {
+    await getUserInit();
+    await getCart();
+    user = get(userStore);
+    console.log("User from onMount action.svelte: " + JSON.stringify(user));
+    cartItems = get(cartStore).items;
+    totalCartItem = cartItems.length;
+    quantity = cartItems.map((item) => item.quantity);
   });
   userStore.subscribe((u) => {
     user = u;

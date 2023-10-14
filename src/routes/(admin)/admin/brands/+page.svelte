@@ -19,7 +19,7 @@
             `<img src="${brand.image.filePath}" alt="${brand.name}" class="max-w-[100px] max-h-[100px] mx-auto" />`,
             `${brand.name}`,
             brand.country,
-            `<button class="btn">Chỉnh sửa</button>`
+            `<a href="/admin/brands/${brand.id}" class="btn variant-ghost-primary rounded-md">Cập nhật</a>`
           ];
         }),
         /* @ts-ignore */
@@ -38,7 +38,7 @@
 {#if brands}
   <div class="flex flex-col">
     <Table
-      regionHeadCell="bg-secondary-600-300-token text-white dark:text-black whitespace-nowrap"
+      regionHeadCell="variant-filled-tertiary whitespace-nowrap"
       source={tableSource}
     />
     <a href="/admin/brands/new" class="btn variant-ghost-primary rounded-md mt-2 self-end">

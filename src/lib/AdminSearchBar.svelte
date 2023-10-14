@@ -28,7 +28,7 @@
   $: handleSearch(search);
 </script>
 
-<div class="search-box relative flex-1">
+<div class="search-box relative flex-1 hidden md:flex">
   <form
     action="/search"
     on:submit={() => {

@@ -6,7 +6,7 @@
   initializeStores();
 </script>
 
-<AppShell slotSidebarLeft="w-[14.2857143%]">
+<AppShell slotSidebarLeft="w-1/4 md:w-[14.2857143%]">
   <!-- (header) -->
   <svelte:fragment slot="sidebarLeft">
     <AdminSideBar />
