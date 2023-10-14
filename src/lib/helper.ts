@@ -4,3 +4,10 @@ export function convertPriceToCurrency(price: number) {
   );
   return priceString.replaceAll('.', ',');
 }
+
+export const geturlextension = (url: string | undefined) => {
+  if (!url) {
+    return undefined;
+  }
+  return url.split(/[#?]/)[0].split('.').pop()?.trim();
+};

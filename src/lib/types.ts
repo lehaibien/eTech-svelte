@@ -51,4 +51,5 @@ export interface User {
   name: string;
   phoneNumber: string;
   image: Image;
+  role: string;
 }

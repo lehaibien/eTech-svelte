@@ -36,7 +36,12 @@
     for (let i = 0; i < files.length; i++) {
       formData.append('images', files[i]);
     }
-    const token = JSON.parse(localStorage.getItem('accessToken')).accessToken;
+    const localAccessToken = localStorage.getItem('accessToken');
+    if (localAccessToken === null) {
+      alert('User is not logged in');
+      return;
+    }
+    const token = JSON.parse(localAccessToken).accessToken;
     const res = await fetch('https://localhost:7066/api/product', {
       method: 'POST',
       headers: {
@@ -153,18 +158,21 @@
           bind:value={product.stock}
         />
       </div>
-      <div class="mb-3">
+      <div class="mb-3 h-1/5">
         <label for="description">Mô tả</label>
         <textarea
           name="description"
-          class="w-full rounded-md bg-surface-300-600-token p-2"
+          class="w-full rounded-md bg-surface-300-600-token p-2 h-full resize-none"
           placeholder="Nhập mô tả cho sản phẩm"
           bind:value={product.description}
         />
       </div>
     </div>
   </div>
-  <button class="btn rounded-lg variant-filled-primary w-1/6 self-end" on:click={addProduct}
-    >Thêm sản phẩm mới</button
-  >
+  <div class="self-end flex gap-2 items-center">
+    <a href="/admin/products" class="btn rounded-lg variant-glass-error">Trở về</a>
+    <button class="btn rounded-lg variant-filled-primary" on:click={addProduct}>
+      Thêm sản phẩm mới
+    </button>
+  </div>
 </div>

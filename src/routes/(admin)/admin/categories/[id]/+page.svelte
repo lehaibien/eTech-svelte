@@ -1,55 +1,102 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { FileDropzone, Toast, getToastStore } from '@skeletonlabs/skeleton';
+  import { page } from '$app/stores';
+  import { geturlextension } from '$lib/helper';
+  import type { Image } from '$lib/types';
   import type { ToastSettings } from '@skeletonlabs/skeleton';
+  import { FileDropzone, Toast, getToastStore } from '@skeletonlabs/skeleton';
+  import { onMount } from 'svelte';
   let files: FileList | undefined;
+  let message = '';
   const removeImage = () => {
     files = undefined;
   };
-  let brand = {
+  interface AdminCategory {
+    name: string;
+    description: string;
+    image: Image | null;
+  }
+  let category: AdminCategory = {
     name: '',
-    country: ''
+    description: '',
+    image: null
   };
-  const addBrand = async () => {
+  const addCategory = async () => {
     if (files === undefined || files.length === 0) {
+      message = 'Vui lòng chọn hình ảnh cho thể loại.';
       toastStore.trigger(t);
       return;
     }
     const formData = new FormData();
-    formData.append('name', brand.name);
-    formData.append('country', brand.country);
+    formData.append('id', $page.params.id);
+    formData.append('name', category.name);
+    formData.append('description', category.description);
     formData.append('image', files[0]);
     const localAccessToken = localStorage.getItem('accessToken');
     if (localAccessToken === null) {
-      alert('User is not logged in');
+      message = 'Bạn không có quyền truy cập vào trang này.';
+      toastStore.trigger(t);
       return;
     }
     const token = JSON.parse(localAccessToken).accessToken;
-    const res = await fetch('https://localhost:7066/api/brand', {
-      method: 'POST',
+    const res = await fetch('https://localhost:7066/api/category', {
+      method: 'PUT',
       headers: {
         Authorization: `Bearer ${token}`
       },
       body: formData
     });
     if (res.status === 201 || res.status === 200) {
-      alert('Thêm hãng thành công');
-      goto('/admin/brands');
+      message = 'Cập nhật thể loại thành công';
+      toastStore.trigger(t);
+      goto('/admin/categories');
     } else {
-      alert('Thêm hãng thất bại');
+      message = 'Cập nhật thể loại thất bại';
+      toastStore.trigger(t);
     }
   };
+  onMount(async () => {
+    const id = $page.params.id;
+    const localAccessToken = localStorage.getItem('accessToken');
+    if (localAccessToken === null) {
+      alert('User is not logged in');
+      return;
+    }
+    const token = JSON.parse(localAccessToken).accessToken;
+    const data = await fetch(`https://localhost:7066/api/category/${id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((res) => res.json());
+    category = data;
+    if (category !== null && category.image !== null) {
+      const response = await fetch(`https://localhost:7066/api/category/${id}/image`);
+      const blob = await response.blob();
+      const fileType = 'image/' + geturlextension(category.image?.fileName);
+      const file: File = new File([blob], category.image?.originalFileName, {
+        type: fileType
+      });
+      /* @ts-ignore */
+      files = [file];
+    }
+  });
   const toastStore = getToastStore();
-  const t: ToastSettings = {
-    message: 'Vui lòng chọn hình ảnh cho sản phẩm.',
+  let t: ToastSettings = {
+    message: '',
     background: 'variant-filled-error',
     timeout: 1500
   };
+  $: t.message = message;
 </script>
 
-<Toast position='t' max={1}/>
+<svelte:head>
+  <title>Cập nhật hãng | eTech</title>
+</svelte:head>
+
+<Toast position="tr" />
 <div class="h-full flex flex-col">
-  <h1>Thêm hãng mới</h1>
+  <h1>Cập nhật hãng</h1>
   <div class="grid grid-cols-1 md:grid-cols-2 py-4 gap-3">
     <div class="col-span-1 p-6 border border-surface-300-600-token">
       <h3 class="mb-2">Hình ảnh</h3>
@@ -97,25 +144,24 @@
           type="text"
           class="w-full rounded-md bg-surface-300-600-token p-2"
           placeholder="Nhập tên hãng"
-          bind:value={brand.name}
+          bind:value={category.name}
         />
       </div>
-      <div class="mb-3 h-[69%]">
-        <label for="country">Quốc gia</label>
-        <input
-          name="country"
-          type="text"
-          class="w-full rounded-md bg-surface-300-600-token p-2"
-          placeholder="Nhập quốc gia"
-          bind:value={brand.country}
+      <div class="mb-3 h-4/5">
+        <label for="description">Mô tả</label>
+        <textarea
+          name="description"
+          class="w-full rounded-md bg-surface-300-600-token p-2 h-full resize-none"
+          placeholder="Nhập mô tả"
+          bind:value={category.description}
         />
       </div>
     </div>
   </div>
   <div class="self-end flex gap-2 items-center">
-    <a href="/admin/brands" class="btn rounded-lg variant-glass-error">Trở về</a>
-    <button class="btn rounded-lg variant-filled-primary" on:click={addBrand}>
-      Thêm hãng mới
+    <a href="/admin/categories" class="btn rounded-lg variant-glass-error">Trở về</a>
+    <button class="btn rounded-lg variant-filled-primary" on:click={addCategory}>
+      Cập nhật
     </button>
   </div>
 </div>

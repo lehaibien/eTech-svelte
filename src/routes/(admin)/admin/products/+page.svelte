@@ -42,12 +42,13 @@
 </script>
 
 {#if products}
-  <Table
-    regionHeadCell="bg-secondary-600-300-token text-white dark:text-black whitespace-nowrap"
-    source={tableSource}
-    interactive
-    on:selected={(e) => {
-      console.log(e.detail);
-    }}
-  />
+  <div class="flex flex-col">
+    <Table
+      regionHeadCell="variant-filled-tertiary whitespace-nowrap"
+      source={tableSource}
+    />
+    <a href="/admin/products/new" class="btn variant-ghost-primary rounded-md mt-2 self-end">
+      Thêm sản phẩm mới
+    </a>
+  </div>
 {/if}

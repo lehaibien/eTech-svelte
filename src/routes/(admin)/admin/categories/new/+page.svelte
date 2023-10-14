@@ -98,7 +98,10 @@
       </div>
     </div>
   </div>
-  <button class="btn rounded-lg variant-filled-primary self-end" on:click={addCategory}
-    >Thêm thể loại mới</button
-  >
+  <div class="self-end flex gap-2 items-center">
+    <a href="/admin/categories" class="btn rounded-lg variant-glass-error">Trở về</a>
+    <button class="btn rounded-lg variant-filled-primary" on:click={addCategory}>
+      Thêm thể loại mới
+    </button>
+  </div>
 </div>
