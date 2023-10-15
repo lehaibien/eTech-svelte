@@ -25,17 +25,17 @@
   <div class="grid grid-cols-6">
     {#if categories}
       {#each categories as category}
-        <div class="col-span-1">
+        <div class="col-span-1 p-3">
           <a
             href="/categories/{category.id}"
-            class="w-1/2 p-3 flex flex-col justify-center items-center"
+            class="w-full flex flex-col justify-center items-center"
           >
             <img
               src={category.image.filePath}
               alt={category.name}
-              class="max-w-[100px] max-h-[100px]"
+              class="max-w-[75%] object-cover aspect-square bg-white"
             />
-            <h3 class="whitespace-nowrap">{category.name}</h3>
+            <h3 class="whitespace-nowrap text-center">{category.name}</h3>
           </a>
         </div>
       {/each}

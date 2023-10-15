@@ -30,6 +30,7 @@
 
 <div class="search-box relative flex-1 hidden md:flex">
   <form
+    class="w-full"
     action="/search"
     on:submit={() => {
       search = '';

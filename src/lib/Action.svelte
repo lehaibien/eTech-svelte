@@ -2,13 +2,12 @@
   import { goto } from '$app/navigation';
   import { Drawer, getDrawerStore, type DrawerSettings } from '@skeletonlabs/skeleton';
   import { onMount } from 'svelte';
-  import { cartStore, getCart, removeFromCart, updateCart } from '../stores/cartStore';
+  import { cartStore, getCart, removeFromCart } from '../stores/cartStore';
   import { getUserInit, userStore } from '../stores/userStore';
   import { convertPriceToCurrency } from './helper';
   import type { CartItem, User } from './types';
   let totalCartItem = 0;
   let cartItems: CartItem[] = [];
-  let quantity: number[] = [];
   cartStore.subscribe((cart) => {
     totalCartItem = cart.items.length;
     cartItems = cart.items;
@@ -42,7 +41,7 @@
               alt={item.product.name}
             />
             <div id="product-container" class="w-2/3">
-              <h3 class="text-base whitespace-nowrap">{item.product.name}</h3>
+              <h3 class="text-sm whitespace-nowrap">{item.product.name}</h3>
               <h4 class="text-sm text-tertiary-500-400-token">Số lượng: {item.quantity}</h4>
               <div>
                 <span class="text-sm font-medium">{convertPriceToCurrency(item.product.price)}</span

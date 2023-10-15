@@ -22,7 +22,8 @@
             product.stock,
             product.category.name,
             product.brand.name,
-            product.description
+            product.description,
+            `<a href="/admin/products/${product.id}" class="btn variant-ghost-primary rounded-md">Cập nhật</a>`
           ];
         }),
         /* @ts-ignore */

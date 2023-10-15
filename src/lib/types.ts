@@ -44,6 +44,33 @@ export interface CartItem {
   quantity: number;
 }
 
+export interface Address {
+  id: number;
+  name: string;
+  streetAddress: string;
+  city: string;
+  province: string;
+  zipCode: string;
+}
+
+export interface Order {
+  id: number;
+  user: User;
+  orderItems: CartItem[];
+  createdAt: Date;
+  modifiedAt: Date;
+}
+
+/*Id = user.Id,
+Username = user.UserName,
+Name = user.Name,
+Email = user.Email,
+PhoneNumber = user.PhoneNumber,
+Image = user.Image,
+Address = user.Address,
+Orders = user.Orders,
+*/
+
 export interface User {
   id: string;
   userName: string;
@@ -52,4 +79,6 @@ export interface User {
   phoneNumber: string;
   image: Image;
   role: string;
+  address: Address;
+  orders: Order[];
 }

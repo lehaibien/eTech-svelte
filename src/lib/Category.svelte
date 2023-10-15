@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import type { Category } from './types';
+
   let isDropDownOpen = false;
 
   const handleDropdownClick = () => {
@@ -6,20 +9,23 @@
   };
 
   const handleDropdownFocusLoss = ({ relatedTarget, currentTarget }: any) => {
-    console.log(relatedTarget);
     if (relatedTarget instanceof HTMLElement && currentTarget.contains(relatedTarget)) return;
     isDropDownOpen = false;
   };
+  let categories: Category[] = [];
+  onMount(async () => {
+    categories = await fetch('https://localhost:7066/api/category').then((res) => res.json());
+  });
 </script>
 
 <div class="container mx-auto flex items-center h-full">
   <div class="dropdown relative inline-block" on:focusout={handleDropdownFocusLoss}>
     <button
-      class="btn rounded-sm flex items-center variant-ringed-surface"
+      class="btn rounded-sm variant-ringed-surface"
       on:click={handleDropdownClick}
     >
       <svg
-        class="fill-current mr-1 w-5 md:w-6 h-5 md:h-6"
+        class="fill-current mr-1 w-5 lg:w-6 h-5 lg:h-6"
         xmlns="http://www.w3.org/2000/svg"
         x="0"
         y="0"
@@ -43,20 +49,21 @@
           </g>
         </g>
       </svg>
-      <span class="hidden md:inline uppercase">Danh mục sản phẩm</span>
+      <span class="hidden md:inline uppercase text-sm lg:text-base">Danh mục sản phẩm</span>
     </button>
     <div
       class="category-dropdown absolute w-screen md:w-full bg-surface-100-800-token rounded-b top-14 md:top-12"
       style:visibility={isDropDownOpen ? 'visible' : 'hidden'}
     >
-      <a
-        class="btn w-full p-3 border-b-2 border-surface-200-700-token rounded-none"
-        href="/danh-muc-san-pham/1">Laptop</a
-      >
-      <a class="btn w-full p-3" href="/danh-muc-san-pham/2">Chuot gaming</a>
+      {#each categories as cat}
+        <a
+          class="btn w-full p-3 border-b-2 border-surface-200-700-token rounded-none hover:bg-surface-100-800-token"
+          href="/categories/{cat.id}">{cat.name}</a
+        >
+      {/each}
     </div>
   </div>
-  <div class="ml-3 items-center p-3 hidden md:inline-block">
+  <div class="ml-3 items-center p-3 hidden md:flex whitespace-nowrap text-xs md:text-sm">
     <div class="inline-flex items-center gap-1">
       <img
         class="w-6 h-6 invert-0 dark:invert"
