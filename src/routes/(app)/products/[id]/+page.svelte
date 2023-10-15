@@ -7,7 +7,8 @@
   let product: Product;
   let maxRating = 5;
   let rating = 3.5;
-  product = data.props.product;
+  $: product = data.props.product;
+  console.log(product);
   let quantity: number = 1;
   const handleQuantity = (e: any) => {
     quantity = e.target.value;
@@ -59,7 +60,7 @@
         >
       </div>
       <div class="flex flex-wrap">
-        <div class="lg:max-w-[66.7%] lg:flex-[66.7%] max-w-full flex-[100%] px-4">
+        <div class="lg:max-w-[66.7%] lg:flex-[66.7%] max-w-full flex-[100%]">
           <div class="price flex items-center rounded p-4 bg-surface-200-700-token mb-4">
             <span class="font-semibold w-1/5 hidden md:block">Giá: </span>
             <span class="text-secondary-500-400-token text-lg md:text-2xl font-semibold pr-2"
