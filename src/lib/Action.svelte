@@ -41,7 +41,7 @@
               alt={item.product.name}
             />
             <div id="product-container" class="w-2/3">
-              <h3 class="text-sm whitespace-nowrap">{item.product.name}</h3>
+              <h3 class="text-sm">{item.product.name}</h3>
               <h4 class="text-sm text-tertiary-500-400-token">Số lượng: {item.quantity}</h4>
               <div>
                 <span class="text-sm font-medium">{convertPriceToCurrency(item.product.price)}</span

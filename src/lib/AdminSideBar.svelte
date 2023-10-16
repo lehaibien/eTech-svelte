@@ -20,7 +20,7 @@
 
 <AppRail
   width="w-full"
-  height="min-h-screen"
+  height="min-h-screen h-full"
   aspectRatio="aspect-[30/9]"
   gap="gap-2"
   active="bg-secondary-200-700-token"
@@ -162,7 +162,7 @@
   <!-- --- -->
   <svelte:fragment slot="trail">
     <div class="w-full h-full flex items-center justify-center p-3">
-      <h2>Developed by <span class="text-primary-600-300-token">lehaibien, hoangnhi</span>.</h2>
+      <h2>Developed by <span class="text-primary-600-300-token">lehaibien</span></h2>
     </div>
   </svelte:fragment>
 </AppRail>

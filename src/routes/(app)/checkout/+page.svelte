@@ -5,7 +5,7 @@
   import { userStore } from '../../../stores/userStore';
   import { onMount } from 'svelte';
   import { getUserInit } from '../../../stores/userStore';
-    import { goto } from '$app/navigation';
+  import { goto } from '$app/navigation';
   onMount(async () => {
     await getUserInit();
   });
@@ -22,7 +22,7 @@
   $: {
     if (user && user.address !== null) {
       let regionDistricts = region.find((r) => r.Name === user.address.province);
-      if(regionDistricts) {
+      if (regionDistricts) {
         districts = regionDistricts.Districts;
       }
     }
@@ -41,24 +41,24 @@
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
         userId: user.id,
         amount: cart.total,
         paymentType: 'COD',
         fee: 0,
-        items: cart.items.map(item => {
+        items: cart.items.map((item) => {
           return {
             productId: item.product.id,
-            quantity: item.quantity,
-          }
+            quantity: item.quantity
+          };
         })
-      }),
+      })
     });
-    if(response.ok) {
+    if (response.ok) {
       alert('Đặt hàng thành công');
-      goto('/');
+      goto('/checkout/success');
     } else {
       alert('Đặt hàng thất bại');
     }

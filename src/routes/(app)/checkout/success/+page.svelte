@@ -1,3 +1,6 @@
+<script lang="ts">
+</script>
+
 <div class="container mx-auto flex flex-col justify-center items-center gap-2 px-8">
   <h1 class="h1">Cảm ơn bạn đã đặt hàng</h1>
   <svg class="w-40 h-40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -16,12 +19,12 @@
   </div>
   <div class="w-full grid grid-cols-2 mt-4">
     <div class="col-span-1 flex justify-center">
-      <div class="card w-[50%] p-4">
+      <div class="card w-2/3 p-4">
         <h2 class="h3 card-header text-center">Kết nối với chúng tôi</h2>
         <section class="grid grid-cols-4 gap-1 mt-4">
           <a href="https://www.facebook.com/" class="facebook flex items-center justify-center">
             <svg
-              class="h-14 w-14 bg-white rounded-full"
+              class="h-12 w-12 bg-white rounded-full"
               fill="#0866ff"
               version="1.1"
               id="Layer_1"
@@ -39,12 +42,9 @@
               </g>
             </svg>
           </a>
-          <a
-            href="https://www.linkedin.com/"
-            class="linkedin flex items-center justify-center"
-          >
+          <a href="https://www.linkedin.com/" class="linkedin flex items-center justify-center">
             <svg
-              class="w-14 h-14 bg-white rounded-full"
+              class="h-12 w-12 bg-white rounded-full"
               fill="#0a66c2"
               version="1.1"
               id="Layer_1"
@@ -64,7 +64,7 @@
           </a>
           <a href="https://www.pinterest.com/" class="pinterest flex items-center justify-center">
             <svg
-              class="h-14 w-14 bg-white rounded-full"
+              class="h-12 w-12 bg-white rounded-full"
               fill="#e60023"
               version="1.1"
               id="Layer_1"
@@ -84,7 +84,7 @@
           </a>
           <a href="https://www.twitter.com/" class=" twitter flex items-center justify-center">
             <svg
-              class="h-14 w-14 bg-white rounded-full"
+              class="h-12 w-12 bg-white rounded-full"
               fill="#25aae1"
               version="1.1"
               id="Layer_1"
@@ -106,7 +106,14 @@
       </div>
     </div>
     <div class="col-span-1 flex justify-center">
-      <a href="/account" class="btn btn-primary">Tài khoản</a>
+      <div class="card w-2/3 p-4">
+        <h2 class="h3 card-header text-center">Tiếp tục mua sắm?</h2>
+        <div class="w-1/2 mx-auto">
+          <a href="/" class="btn variant-filled-primary mt-4 rounded-xl w-full mx-auto"
+            >Nhấn vào đây</a
+          >
+        </div>
+      </div>
     </div>
   </div>
 </div>
