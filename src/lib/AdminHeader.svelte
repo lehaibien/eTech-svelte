@@ -3,7 +3,7 @@
   import { page } from '$app/stores';
   import { LightSwitch } from '@skeletonlabs/skeleton';
   type Dict = { [key: string]: string };
-  const crumbAsVietnamese: Dict = {
+  const crumbInVietnamese: Dict = {
     users: 'Người dùng',
     categories: 'Danh mục',
     brands: 'Hãng',
@@ -26,7 +26,7 @@
       const capitalizedCrumb = crumb.charAt(0).toUpperCase() + crumb.slice(1);
       // join the words back together with a space
       // return the label and the link
-      const crumbTitle = crumbAsVietnamese[crumb];
+      const crumbTitle = crumbInVietnamese[crumb];
       return { label: crumbTitle ?? capitalizedCrumb, link: `/admin/${crumb}` };
     });
   console.log(myBreadcrumbs);
