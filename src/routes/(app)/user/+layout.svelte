@@ -4,10 +4,8 @@
   import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
   import { page } from '$app/stores';
   let user: any = null;
-  let imageUser: string = null;
   userStore.subscribe((u) => {
       user = u;
-      imageUser = u?.image.filePath;
       console.log(user)
   });
 </script>
@@ -106,6 +104,9 @@
                 </li>
                 <li>
                   <a href="/user/profile">Địa chỉ</a>
+                </li>
+                <li>
+                  <a href="/user/profile">Đổi mật khẩu</a>
                 </li>
               </ul>
             </svelte:fragment>
