@@ -1,7 +1,12 @@
 <script lang="ts">
-    import SearchBar from '$lib/SearchBar.svelte';
+  import SearchBar from '$lib/SearchBar.svelte';
   import type { Order } from '$lib/types';
-  import { getModalStore, Modal, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
+  import {
+    getModalStore,
+    Modal,
+    type ModalComponent,
+    type ModalSettings
+  } from '@skeletonlabs/skeleton';
   import { onMount } from 'svelte';
   import OrderUpdateModal from '$lib/OrderUpdateModal.svelte';
   let orders: Order[];
@@ -47,13 +52,20 @@
     }
   };
   let modalComponent: ModalComponent;
-  $: modalComponent = { ref: OrderUpdateModal, props: { orders } };
   const modalStore = getModalStore();
-  let modal : ModalSettings;
-  $: modal = {
-    type: 'component',
-    component: modalComponent,
-    title: 'Cập nhật đơn hàng',
+  const updateModal = (order: Order) => {
+    const modalComponent: ModalComponent = {
+      ref: OrderUpdateModal,
+      props: {
+        order: order
+      }
+    };
+    const modal: ModalSettings = {
+      type: 'component',
+      component: modalComponent,
+      title: 'Cập nhật đơn hàng'
+    };
+    modalStore.trigger(modal);
   };
 </script>
 
@@ -88,8 +100,9 @@
               <td colspan="2">
                 <a href="/admin/orders/{ord.id}" class="btn variant-ghost-primary rounded-md">Xem</a
                 >
-                <button class="btn variant-ghost-tertiary rounded-md ml-2" on:click={() => modalStore.trigger(modal)}
-                  >Cập nhật</button
+                <button
+                  class="btn variant-ghost-tertiary rounded-md ml-2"
+                  on:click={() => updateModal(ord)}>Cập nhật</button
                 >
                 <button
                   class="btn variant-ghost-error rounded-md ml-2"
