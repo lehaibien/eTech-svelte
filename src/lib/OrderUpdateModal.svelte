@@ -4,9 +4,7 @@
 
   export let parent: any;
   export let order: Order;
-  onMount(() => {
-    console.log(order);
-  });
+  console.log(order);
   </script>
 
 <h2>HELLO</h2>
