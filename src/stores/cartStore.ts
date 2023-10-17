@@ -202,5 +202,4 @@ export const clearCart = () => {
     items: [],
     total: 0
   });
-  localStorage.removeItem('cart');
 };

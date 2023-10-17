@@ -27,7 +27,7 @@
     orders = await res.json();
   });
   const deleteOrder = async (id: number) => {
-    const prompt = confirm('Bạn có chắc chắn muốn xóa thể loại này?');
+    const prompt = confirm('Bạn có chắc chắn muốn xóa đơn hàng này?');
     if (!prompt) {
       return;
     }
@@ -51,7 +51,6 @@
       alert('Xóa thất bại');
     }
   };
-  let modalComponent: ModalComponent;
   const modalStore = getModalStore();
   const updateModal = (order: Order) => {
     const modalComponent: ModalComponent = {
@@ -63,13 +62,13 @@
     const modal: ModalSettings = {
       type: 'component',
       component: modalComponent,
-      title: 'Cập nhật đơn hàng'
     };
     modalStore.trigger(modal);
   };
+  const orderStatus = ['Đang xử lý', 'Đang giao hàng', 'Đã giao hàng'];
 </script>
 
-<Modal />
+<Modal background="bg-surface-backdrop-token"/>
 {#if orders && orders.length > 0}
   <div class="flex flex-col">
     <!-- <Table regionHeadCell="variant-filled-tertiary whitespace-nowrap" source={tableSource} /> -->
@@ -78,11 +77,12 @@
       <!-- Native Table Element -->
       <table class="table table-hover table-fixed">
         <thead>
-          <tr class="variant-filled-tertiary">
+          <tr class="variant-ghost-tertiary text-sm">
             <th>Người đặt hàng</th>
             <th>Số lượng sản phẩm</th>
             <th>Địa chỉ giao hàng</th>
             <th>Ngày đặt hàng</th>
+            <th>Trạng thái</th>
             <th colspan="2">Chức năng</th>
           </tr>
         </thead>
@@ -97,6 +97,7 @@
                   : 'Không xác định'}
               </td>
               <td>{new Date(ord.createdAt).toLocaleString('vi')}</td>
+              <td>{orderStatus[ord.orderStatus]}</td>
               <td colspan="2">
                 <a href="/admin/orders/{ord.id}" class="btn variant-ghost-primary rounded-md">Xem</a
                 >

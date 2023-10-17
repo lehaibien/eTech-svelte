@@ -53,10 +53,11 @@ export interface Address {
   zipCode: string;
 }
 
-export interface Order {
+export type Order = {
   id: number;
   user: User;
   orderItems: CartItem[];
+  orderStatus: number;
   createdAt: Date;
   modifiedAt: Date;
 }
@@ -71,7 +72,7 @@ Address = user.Address,
 Orders = user.Orders,
 */
 
-export interface User {
+export type User = {
   id: string;
   userName: string;
   email: string;
