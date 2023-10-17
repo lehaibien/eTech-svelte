@@ -1,11 +1,12 @@
 <script lang="ts">
   import region from '$lib/region.json';
   import { get } from 'svelte/store';
-  import { cartStore } from '../../../stores/cartStore';
+  import { cartStore, clearCart } from '../../../stores/cartStore';
   import { userStore } from '../../../stores/userStore';
   import { onMount } from 'svelte';
   import { getUserInit } from '../../../stores/userStore';
   import { goto } from '$app/navigation';
+  import { convertPriceToCurrency } from '$lib/helper';
   onMount(async () => {
     await getUserInit();
   });
@@ -17,13 +18,23 @@
   userStore.subscribe((u) => {
     user = u;
   });
-  const provinces = region.map((r) => r.Name);
+  const provinces = region.map((r) =>
+    r.Name.split(' ')
+      .filter((n) => !['thành', 'phố', 'tỉnh'].includes(n.toLowerCase()))
+      .join(' ')
+  );
   let districts: any[] = [];
   $: {
     if (user && user.address !== null) {
-      let regionDistricts = region.find((r) => r.Name === user.address.province);
+      let regionDistricts = region.find((r) => r.Name.endsWith(user.address.province));
       if (regionDistricts) {
-        districts = regionDistricts.Districts;
+        const districtName = regionDistricts.Districts.map((d) => d.Name);
+        districts = districtName.map((d) =>
+          d
+            .split(' ')
+            .filter((n) => !['thành', 'phố', 'huyện', 'quận'].includes(n.toLowerCase()))
+            .join(' ')
+        );
       }
     }
   }
@@ -58,6 +69,7 @@
     });
     if (response.ok) {
       alert('Đặt hàng thành công');
+      clearCart();
       goto('/checkout/success');
     } else {
       alert('Đặt hàng thất bại');
@@ -65,7 +77,7 @@
   };
 </script>
 
-{#if user && cart && user.address !== null}
+{#if user && cart}
   <div class="h-full flex flex-col">
     <h1>Thanh toán</h1>
     <div class="grid grid-cols-2 py-4 gap-3">
@@ -113,7 +125,7 @@
         </div>
         <div class="mb-3 grid grid-cols-1 md:grid-cols-2 gap-2">
           <div>
-            <label for="address">Tỉnh</label>
+            <label for="address">Tỉnh / Thành phố trực thuộc trung ương</label>
             <select
               name="address"
               id=""
@@ -127,7 +139,7 @@
             </select>
           </div>
           <div>
-            <label for="address">Quận / Huyện</label>
+            <label for="address">Quận / Huyện / Thành phố</label>
             <select
               name="address"
               id=""
@@ -136,7 +148,7 @@
             >
               <option value="" disabled>Chọn quận / huyện</option>
               {#each districts as district}
-                <option value={district.Name}>{district.Name}</option>
+                <option value={district}>{district}</option>
               {/each}
             </select>
           </div>
@@ -155,8 +167,26 @@
       <div class="col-span-1 p-6 border border-surface-300-600-token">
         {#if cart}
           {#each cart.items as item}
-            <h2>{item.product.name}</h2>
+            <div class="w-full p-3 flex items-center mb-2">
+              <div class="flex items-center gap-2">
+                <img
+                  class="w-1/6 bg-white rounded-lg"
+                  src={item.product.images[0].filePath}
+                  alt={item.product.name + ' image'}
+                />
+                <header>
+                  <h1>{item.product.name}</h1>
+                  <p>Số lượng: {item.quantity}</p>
+                </header>
+              </div>
+              <div>{convertPriceToCurrency(item.product.price)}</div>
+            </div>
           {/each}
+          <hr class="mb-2" />
+          <div class="h3 flex justify-between px-3">
+            <h4>Tổng cộng:</h4>
+            <span>{convertPriceToCurrency(cart.total)}</span>
+          </div>
         {/if}
       </div>
     </div>

@@ -18,7 +18,7 @@
       <!-- Native Table Element -->
       <table class="table table-hover table-fixed">
         <thead>
-          <tr class="variant-filled-tertiary whitespace-nowrap text-xs lg:text-sm">
+          <tr class="variant-ghost-tertiary whitespace-nowrap text-xs lg:text-sm">
             <th />
             <th>Tên sản phẩm</th>
             <th>Giá</th>
@@ -44,7 +44,7 @@
               <td colspan="2">
                 <a
                   href="/admin/products/{product.id}"
-                  class="btn variant-ghost-tertiary rounded-md ml-2">Cập nhật</a
+                  class="btn variant-ghost-primary rounded-md ml-2">Cập nhật</a
                 >
                 <button class="btn variant-ghost-error rounded-md ml-2" on:click={() => {}}
                   >Xóa</button

@@ -72,7 +72,7 @@
       />
       <span>Đảm bảo chất lượng</span>
     </div>
-    <div class="inline-flex items-center gap-1">
+    <div class="ml-3 inline-flex items-center gap-1">
       <img
         class="w-6 h-6 invert-0 dark:invert"
         src="//theme.hstatic.net/200000637319/1000990988/14/header_03_policy_2_ico.png?v=367"
@@ -80,7 +80,7 @@
       />
       <span>Hỗ trợ trả góp</span>
     </div>
-    <div class="inline-flex items-center gap-1">
+    <div class="ml-3 inline-flex items-center gap-1">
       <img
         class="w-6 h-6 invert-0 dark:invert"
         src="//theme.hstatic.net/200000637319/1000990988/14/header_03_policy_3_ico.png?v=367"

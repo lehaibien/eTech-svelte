@@ -42,7 +42,7 @@
       <!-- Native Table Element -->
       <table class="table table-hover table-fixed">
         <thead>
-          <tr class="variant-filled-tertiary whitespace-nowrap">
+          <tr class="variant-ghost-tertiary text-sm">
             <th/>
             <th>Tên thể loại</th>
             <th colspan="2">Mô tả</th>
@@ -51,7 +51,7 @@
         </thead>
         <tbody>
           {#each categories as cat, i}
-            <tr class="[&>td]:!align-middle">
+            <tr class="[&>td]:!align-middle [&>td]:px-4">
               <td>
                 <img
                   class="max-w-[100px] max-h-[100px] mx-auto"
