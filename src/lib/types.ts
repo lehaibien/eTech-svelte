@@ -15,6 +15,7 @@ export interface Category {
   image: Image;
   createdAt: Date;
   updatedAt: Date;
+  products: Product[];
 }
 
 export interface Brand {
