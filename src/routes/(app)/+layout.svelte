@@ -5,11 +5,17 @@
   import { AppShell } from '@skeletonlabs/skeleton';
   import { initializeStores } from '@skeletonlabs/skeleton';
   import { page } from '$app/stores';
+    import path from 'path';
   const pathNames: Record<string, string> = {
     categories: 'Danh mục sản phẩm',
     products: 'Sản phẩm',
     'chuot-choi-game': 'Chuột chơi game',
-    'ban-phim-co': 'Bàn phím cơ'
+    'ban-phim-co': 'Bàn phím cơ',
+    'all': 'Tất cả sản phẩm',
+    'login': 'Đăng nhập',
+    'register': 'Đăng ký',
+    'purchase': 'Đơn mua',
+    'user': 'Người dùng',
   };
   let regex = new RegExp('^(?!$)(?![0-9]+$).*$');
   let paths: string[] = [];
@@ -48,7 +54,7 @@
                 clip-rule="evenodd"
               />
             </svg>
-            <p class="font-bold ms-1">Home</p>
+            <p class="font-bold ms-1">Trang chủ</p>
           </a>
         </li>
         {#each paths as path}
