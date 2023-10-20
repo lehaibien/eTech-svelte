@@ -16,6 +16,7 @@
     'register': 'Đăng ký',
     'purchase': 'Đơn mua',
     'user': 'Người dùng',
+    'profile': 'Hồ sơ'
   };
   let regex = new RegExp('^(?!$)(?![0-9]+$).*$');
   let paths: string[] = [];
