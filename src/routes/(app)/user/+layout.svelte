@@ -1,6 +1,6 @@
 <script lang="ts">
   import { AppShell, Avatar, LightSwitch } from '@skeletonlabs/skeleton';
-  import { userStore } from '../../../stores/userStore';
+  import { clearUser, userStore } from '../../../stores/userStore';
   import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
   import { page } from '$app/stores';
   import type { User } from '$lib/types';
@@ -8,6 +8,10 @@
   userStore.subscribe((u) => {
     user = u;
   });
+  const SignOut = () => {
+    clearUser();
+    window.location.href = "/";
+  }
 </script>
 
 <div class=" max-w-[1100px] mx-auto">
@@ -76,7 +80,7 @@
                     {/if}
                   </li>
                   <li>
-                    <a href="/">Địa chỉ</a>
+                    <button on:click={SignOut}>Đăng xuất</button>
                   </li>
                 </ul>
               </svelte:fragment>
@@ -106,10 +110,7 @@
                     <a href="/user/profile">Hồ Sơ</a>
                   </li>
                   <li>
-                    <a href="/user/profile">Địa chỉ</a>
-                  </li>
-                  <li>
-                    <a href="/user/profile">Đổi mật khẩu</a>
+                    <button on:click={SignOut}>Đăng xuất</button>
                   </li>
                 </ul>
               </svelte:fragment>
